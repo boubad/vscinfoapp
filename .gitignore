@@ -25,3 +25,10 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+jspm_packages
+bower_components
+.DS_STORE
+.c9
+.zedstate
+dist/
+public/views/**/*.js

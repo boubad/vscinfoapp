@@ -1,0 +1,27 @@
+{
+  "name": "vscinfoapp",
+  "version": "0.9.0",
+  "description": "A starter kit for building a standard navigation-style app with Aurelia.",
+  "keywords": [
+    "aurelia",
+    "navigation",
+    "skeleton"
+  ],
+  "license": "MIT",
+  "author": "Boubacar Diarra <boubadiarra@gmail.com>",
+  "main": "dist/commonjs/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/boubad/vscinfoapp.git"
+  },
+  "devDependencies": {
+    "browser-sync": "^1.8.1",
+    "del": "^1.1.0",
+    "gulp": "^3.8.10",
+    "gulp-changed": "^1.1.0",
+    "run-sequence": "^1.0.2",
+    "merge2": "*",
+    "gulp-typescript": "*",
+    "typescript": "Microsoft/TypeScript"
+  }
+}
