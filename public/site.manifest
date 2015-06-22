@@ -32,7 +32,7 @@ CACHE MANIFEST
  views/common/elementdesc.js
  views/common/filedesc.js
  views/common/infoconstants.js
- views/common/infoelement.js
+ views/infoelement.js
  views/common/infomessage.js
  views/common/inforoot.js
  views/common/localstore.js
