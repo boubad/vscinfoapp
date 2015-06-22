@@ -1,0 +1,153 @@
+<template>
+  <require from='../connect-bar'></require>
+  <connect-bar info.bind="userInfo"></connect-bar>
+  <div class="container" if.bind="isConnected">
+    <h2>${title}</h2>
+    <h3 show.bind="hasErrorMessage" class="text-danger">${errorMessage}</h3>
+    <h3 show.bind="hasInfoMessage" class="text-success">${infoMessage}</h3>
+    <div class="row">
+      <div class="col-sm-4">&nbsp;</div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label class="form-label" for="departements">Département</label>
+          <select id="departements" value.bind="departement">
+            <option>Département...</option>
+            <option repeat.for="depelem of departements" model.bind="depelem">${depelem.text}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row" if.bind="canShowForm">
+      <div class="col-sm-3" if.bind="hasItems">
+        <table>
+          <tbody>
+            <tr if.bind="hasPages">
+              <td>
+                <ul class="pagination">
+                  <li>
+                    <a href="#" click.delegate="firstPage()" show.bind="canPrevPage">Début</a>
+                  </li>
+                  <li>
+                    <a href="#" click.delegate="prevPage()" show.bind="canPrevPage">Préc.</a>
+                  </li>
+                  <li>
+                    <a href="#" click.delegate="nextPage()" show.bind="canNextPage">Suivant</a>
+                  </li>
+                  <li>
+                    <a href="#" click.delegate="lastPage()" show.bind="canNextPage">Fin</a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr if.bind="hasPages">
+              <td class="text-success"><strong>${pageStatus}</strong></td>
+            </tr>
+            <tr>
+              <td>
+                <select value.bind="currentItem" size="16">
+                  <option repeat.for="elem of items" model.bind="elem">${elem.text}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div>
+          <button type="button" click.delegate="refreshAll()" class="btn btn-primary">Rafraîchir</button>
+        </div>
+        <form role="form">
+          <div if.bind="isEditItem" class="form-group">
+            <div>
+              <button type="button"  class="btn btn-primary" click.delegate="reset_password()">Réinitialiser mot de passe</button>
+            </div>
+            <div if.bind="hasAvatarUrl">
+              <img src.bind="avatarUrl" height="128"></img>
+              <button type="button" show.bind="canRemoveAvatar" class="btn btn-primary" click.delegate="removeAvatar()">Supprimer</button>
+            </div>
+            <div>
+              <input type="file" id="fileToUpload" show.bind="isEditable" accept="image/png, image/jpeg" change.delegate="avatarFileChanged($event)"></input>
+            </div>
+            <div show.bind="hasWorkingUrl">
+              <img src.bind="workingUrl" height="128"></img>
+              <button type="button" show.bind="canSaveAvatar" class="btn btn-primary" click.delegate="saveAvatar()">Modifier</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="username">Identifiant</label>
+            <input class="form-control" type="text" id="username" value.bind="username" placeholder="Identifiant" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lastname">Nom de famille</label>
+            <input class="form-control" type="text" id="lastname" value.bind="lastname" placeholder="Nom de famille" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="firstname">Prénom(s)</label>
+            <input class="form-control" type="text" id="firstname" value.bind="firstname" placeholder="Prénom(s)" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Courriel</label>
+            <input class="form-control" type="email" id="email" value.bind="email" placeholder="Courriel" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Téléphone</label>
+            <input class="form-control" type="tel" id="phone" value.bind="phone" placeholder="Téléphone" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" id="description" readonly.bind="isReadOnly" value.bind="description"></textarea>
+          </div>
+          <div class="btn-group" if.bind="isEditable">
+            <button type="button" disabled.bind="cannotAdd" click.delegate="addNew()" class="btn btn-primary">Nouveau</button>
+            <button type="button" disabled.bind="cannotCancel" click.delegate="cancel()" class="btn btn-primary">Annuler</button>
+            <button type="button" disabled.bind="cannotSave" click.delegate="save()" class="btn btn-primary">Enregistrer</button>
+            <button type="button" disabled.bind="cannotRemove" click.delegate="remove()" class="btn btn-primary">Supprimer</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-4">
+        <form role="form">
+          <div class="form-group">
+            <label class="form-label">Sexe</label>
+            <label class="radio-inline">
+              <input type="radio" name="optsexe" value.bind="sexe">MASCULIN</label>
+            <label class="radio-inline">
+              <input type="radio" name="optsexe" value.bind="sexe">FEMININ</label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="birthDate">Date de naissance</label>
+            <input class="form-control" type="date" id="birthDate" value.bind="birthDate"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dossier">Dossier</label>
+            <input class="form-control" type="text" id="dossier" value.bind="dossier" placeholder="Dossier" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="etablissement">Etablissement</label>
+            <input class="form-control" type="text" id="etablissement" value.bind="etablissement" placeholder="Etablissement" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ville">Ville</label>
+            <input class="form-control" type="text" id="ville" value.bind="ville" placeholder="Ville" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="seriebac">Série bac</label>
+            <input class="form-control" type="text" id="seriebac" value.bind="serieBac" placeholder="Série bac" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="optionbac">Option bac</label>
+            <input class="form-control" type="text" id="optionbac" value.bind="optionBac" placeholder="Option bac" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mentionbac">Mention bac</label>
+            <input class="form-control" type="text" id="mentionbac" value.bind="mentionBac" placeholder="Mention bac" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sup">Etudes supérieures</label>
+            <input class="form-control" type="text" id="sup" value.bind="etudesSuperieures" placeholder="Etudes supérieures" readonly.bind="isReadOnly"></input>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>

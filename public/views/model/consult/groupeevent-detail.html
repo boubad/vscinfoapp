@@ -1,0 +1,116 @@
+<template>
+  <require from='../connect-bar'></require>
+  <div class="container" if.bind="isConnected">
+    <connect-bar info.bind="userInfo"></connect-bar>
+  <div class="row">
+    <div class="col-sm-1" if.bind="hasUrl">
+      <img src.bind="url" height="128">
+      </imag>
+    </div>
+    <div class="col-sm-1">&nbsp;</div>
+    <div class="col-sm-7">
+      <h2>${currentItem.name}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="form-group">
+        <label class="form-label" for="genre">Genre</label>
+        <input class="form-control" type="text" id="genre" value.bind="genre" readonly></input>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="eventDate">Date</label>
+        <input class="form-control" type="date" id="eventDate" value.bind="eventDate" readonly></input>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="name">Nom</label>
+        <input class="form-control" type="text" id="name" value.bind="name" readonly></input>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="coef">Coefficient</label>
+        <input class="form-control" type="text" id="coef" value.bind="coefficient" readonly></input>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="location">Location</label>
+        <input class="form-control" type="text" id="location" value.bind="location" readonly></input>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="startTime">Heure début</label>
+        <input class="form-control" type="text" id="startTime" value.bind="startTime" readonly></input>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="endTime">Heure fin</label>
+        <input class="form-control" type="text" id="endTime" value.bind="endTime" readonly></input>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" id="description" value.bind="description" readonly></textarea>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <h3>Evènements</h3>
+      <table id="link-table">
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Nom de famille</th>
+          <th>Prénom(s)</th>
+          <th>Genre</th>
+          <th>Obs.</th>
+        </tr>
+        <tr repeat.for="evt of evts">
+          <td>
+            <a href="#etudevt/${evt.id}/detail">Modifier</a>
+          </td>
+          <td>
+            <div if.bind="evt.has_url">
+              <img src.bind="evt.url" height="48"></img>
+            </div>
+          </td>
+          <td>
+            <a href="#etud/${evt.personid}/detail">${evt.lastname}</a>
+          </td>
+          <td>
+            ${evt.firstname}
+          </td>
+          <td>
+            ${evt.genre}
+          </td>
+          <td>
+            ${evt.description}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-sm-1">&nbsp;</div>
+    <div class="col-sm-3">
+      <h3>Notes</h3>
+      <table id="link-table">
+        <tr>
+          <th></th>
+          <th>Nom de famille</th>
+          <th>Prénom(s)</th>
+          <th>Note</th>
+        </tr>
+        <tr repeat.for="note of notes">
+          <td>
+            <div if.bind="note.has_url">
+              <img src.bind="note.url" height="48"></img>
+            </div>
+          </td>
+          <td>
+            <a href="#etud/${note.personid}/detail">${note.lastname}</a>
+          </td>
+          <td>
+            ${note.firstname}
+          </td>
+          <td>
+            ${note.note}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-sm-1">&nbsp;</div>
+  </div>
+</div>
+</template>

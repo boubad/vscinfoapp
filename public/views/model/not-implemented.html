@@ -1,0 +1,7 @@
+<template>
+  <require from='./connect-bar'></require>
+  <connect-bar info.bind="userInfo"></connect-bar>
+  <div if.bind="isConnected">
+  <h2>${heading}</h2>
+</div>
+</template>

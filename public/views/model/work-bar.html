@@ -1,0 +1,52 @@
+<template>
+			<div class="row">
+				<div class="col-sm-1">
+					<div class="form-group">
+						<label class="form-label" for="departements">Dép.</label>
+						<select id="departements" value.bind="departement">
+							<option repeat.for="depelem of departements" model.bind="depelem">${depelem.text}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<div class="form-group">
+						<label class="form-label" for="annees">Année</label>
+						<select id="annees" value.bind="annee">
+							<option repeat.for="anelem of annees" model.bind="anelem">${anelem.text}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<div class="form-group">
+						<label class="form-label" for="semestres">Sem.</label>
+						<select id="semestres" value.bind="semestre">
+							<option repeat.for="semelem of semestres" model.bind="semelem">${semelem.text}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<div class="form-group">
+						<label class="form-label" for="unites">Unité</label>
+						<select id="unites" value.bind="unite">
+							<option repeat.for="unelem of unites" model.bind="unelem">${unelem.text}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<div class="form-group">
+						<label class="form-label" for="matieres">Matière</label>
+						<select id="matieres" value.bind="matiere">
+							<option repeat.for="matelem of matieres" model.bind="matelem">${matelem.text}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<div class="form-group">
+						<label class="form-label" for="groupes">Groupe</label>
+						<select id="groupes" value.bind="groupe">
+							<option repeat.for="grpelem of groupes" model.bind="grpelem">${grpelem.text}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</template>

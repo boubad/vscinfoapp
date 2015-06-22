@@ -1,0 +1,303 @@
+<template>
+  <require from='../connect-bar'></require>
+  <connect-bar info.bind="userInfo"></connect-bar>
+  <div class="container" if.bind="isConnected">
+    <h2>${title}</h2>
+    <h3 show.bind="hasErrorMessage" class="text-danger">${errorMessage}</h3>
+    <h3 show.bind="hasInfoMessage" class="text-success">${infoMessage}</h3>
+    <form role="form">
+      <div class="row">
+        <div class="col-sm-1">
+          <div class="form-group">
+            <label class="form-label" for="departements">Dép.</label>
+            <select id="departements" value.bind="departement">
+              <option>[Departement?]</option>
+              <option repeat.for="depelem of departements" model.bind="depelem">${depelem.text}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <div class="form-group">
+            <label class="form-label" for="annees">Année</label>
+            <select id="annees" value.bind="annee">
+              <option>[Année?]</option>
+              <option repeat.for="anelem of annees" model.bind="anelem">${anelem.text}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <div class="form-group">
+            <label class="form-label" for="semestres">Sem.</label>
+            <select id="semestres" value.bind="semestre">
+              <option>[Semestre?]</option>
+              <option repeat.for="semelem of semestres" model.bind="semelem">${semelem.text}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <div class="form-group">
+            <label class="form-label" for="unites">Unité</label>
+            <select id="unites" value.bind="unite">
+              <option>[Unite?]</option>
+              <option repeat.for="unelem of unites" model.bind="unelem">${unelem.text}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <div class="form-group">
+            <label class="form-label" for="matieres">Matière</label>
+            <select id="matieres" value.bind="matiere">
+              <option>[Matiere?]</option>
+              <option repeat.for="matelem of matieres" model.bind="matelem">${matelem.text}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <div class="form-group">
+            <label class="form-label" for="groupes">Groupe</label>
+            <select id="groupes" value.bind="groupe">
+              <option>[Groupe?]</option>
+              <option repeat.for="grpelem of groupes" model.bind="grpelem">${grpelem.text}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <div class="form-group">
+            <label class="form-label" for="allGenre">Genre</label>
+            <select id="allGenre" value.bind="allGenre">
+              <option value='TP'>Travaux Pratiques</option>
+              <option value='CONT'>Contrôle</option>
+              <option value='EXAM'>Examen</option>
+              <option value='FAC'>Devoir Facultatif</option>
+              <option value='TD'>Travaux Dirigés</option>
+              <option value='COURS'>Cours Magistral</option>
+              <option value='AUTRE'>Autre Genre</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+    <ul class="pagination" if.bind="isEditItem">
+      <li>
+        <a href="#" click.delegate="edit_mode()" show.bind="isNotEditMode">Edition</a>
+      </li>
+      <li>
+        <a href="#" click.delegate="evt_mode()" show.bind="isNotEvtMode">Evènements</a>
+      </li>
+      <li>
+        <a href="#" click.delegate="note_mode()" show.bind="isNotNoteMode">Notes</a>
+      </li>
+      <li>
+        <a href="#" click.delegate="saveNotes()" show.bind='noteMode'>Enregistrer notes</a>
+      </li>
+    </ul>
+    <div class="row" if.bind="editMode">
+      <div class="col-sm-4" if.bind="hasItems">
+        <ul class="pagination" if.bind="hasPages">
+          <li>
+            <a href="#" click.delegate="firstPage()" show.bind="canPrevPage">Début</a>
+          </li>
+          <li>
+            <a href="#" click.delegate="prevPage()" show.bind="canPrevPage">Préc.</a>
+          </li>
+          <li>
+            <a href="#" click.delegate="nextPage()" show.bind="canNextPage">Suivant</a>
+          </li>
+          <li>
+            <a href="#" click.delegate="lastPage()" show.bind="canNextPage">Fin</a>
+          </li>
+        </ul>
+        <select value.bind="currentItem" size="16">
+          <option repeat.for="elem of items" model.bind="elem">${elem.text}</option>
+        </select>
+      </div>
+      <div class="col-sm-4" if.bind="canShowForm">
+        <form role="form">
+          <div class="form-group">
+            <div if.bind="hasAvatarUrl">
+              <img src.bind="avatarUrl" height="128"></img>
+              <button type="button" class="btn btn-primary" click.delegate="removeAvatar()">Supprimer</button>
+            </div>
+            <div>
+              <input type="file" id="fileToUpload"  accept="image/png, image/jpeg" change.delegate="avatarFileChanged($event)"></input>
+            </div>
+            <div show.bind="hasWorkingUrl">
+              <img src.bind="workingUrl" height="128"></img>
+              <button type="button"  class="btn btn-primary" click.delegate="saveAvatar()">Modifier</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="genre">Genre</label>
+            <select id="genre" value.bind="genre">
+              <option value='TP'>Travaux Pratiques</option>
+              <option value='CONT'>Contrôle</option>
+              <option value='EXAM'>Examen</option>
+              <option value='FAC'>Devoir Facultatif</option>
+              <option value='TD'>Travaux Dirigés</option>
+              <option value='COURS'>Cours Magistral</option>
+              <option value='AUTRE'>Autre Genre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="eventDate">Date</label>
+            <input class="form-control" type="date" id="eventDate" value.bind="eventDate" min.bind="startDate" max.bind="endDate" required></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="name">Nom</label>
+            <input class="form-control" type="text" id="name" value.bind="name" placeholder="Nom" required></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="coef">Coefficient</label>
+            <input class="form-control" type="text" id="coef" value.bind="coefficient" placeholder="Coefficient"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="location">Location</label>
+            <input class="form-control" type="text" id="location" value.bind="location" placeholder="Location"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="startTime">Heure début</label>
+            <input class="form-control" type="text" id="startTime" value.bind="startTime"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="endTime">Heure fin</label>
+            <input class="form-control" type="text" id="endTime" value.bind="endTime"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" id="description" value.bind="description"></textarea>
+          </div>
+          <div class="btn-group">
+            <button type="button" show.bind="canAdd" click.delegate="addNew()" class="btn btn-primary">Nouveau</button>
+            <button type="button" show.bind="canCancel" click.delegate="cancel_add()" class="btn btn-primary">Annuler</button>
+            <button type="button" show.bind="canSave" click.delegate="save()" class="btn btn-primary">Enregistrer</button>
+            <button type="button" show.bind="canRemove" click.delegate="remove()" class="btn btn-primary">Supprimer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- -->
+    <div if.bind="noteMode">
+      <table id="link-table">
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Nom de famille</th>
+          <th>Prénom(s)</th>
+          <th>Note</th>
+          <th>Observations</th>
+        </tr>
+        <tr repeat.for="note of allNotes">
+          <td>
+            <div if.bind="note.has_url">
+              <img src.bind="note.url" height="48"></img>
+            </div>
+          </td>
+          <td>
+            <input type="checkbox" checked.bind="note.selected" />
+          </td>
+          <td>
+            <a href="#etud/${note.personid}/detail">${note.lastname}</a>
+          </td>
+          <td>
+            ${note.firstname}
+          </td>
+          <td>
+            <input class="form-control" type="text" value.bind="note.note"></input>
+          </td>
+          <td>
+            <input class="form-control" type="text" value.bind="note.description"></input>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- -->
+    <div if.bind="evtMode">
+      <div class="row">
+        <div class="col-sm-1">&nbsp;</div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="form-label" for="etudevtgenre">Genre</label>
+            <select id="etudevtgenre" value.bind="etudEvtGenre">
+              <option value='ABSENCE1'>ABSENCE 1</option>
+              <option value='ABSENCE2'>ABSENCE 2</option>
+              <option value='RETARD1'>RETARD 1</option>
+              <option value='RETARD2'>RETARD 2</option>
+              <option value='AUTRE'>AUTRE</option>
+            </select>
+          </div>
+        </div>
+        <!--
+        <div class="col-md-2 col-sm-2 col-xs-2">
+
+        </div>
+      -->
+        <div class="col-sm-4">
+          <div class="btn-group">
+            <button type="button" disabled.bind="cannotSaveEtudEvents" click.delegate="saveEtudEvents()" class="btn btn-primary">Ajouter</button>
+            <button type="button" disabled.bind="cannotRemoveEtudEvents" click.delegate="removeEtudEvents()" class="btn btn-primary">Supprimer</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <table id="link-table">
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Nom de famille</th>
+              <th>Prénom(s)</th>
+            </tr>
+            <tr repeat.for="aff of etudAffectations">
+              <td>
+                <div if.bind="aff.has_url">
+                  <img src.bind="aff.url" height="48"></img>
+                </div>
+              </td>
+              <td>
+                <input type="checkbox" checked.bind="aff.selected" />
+              </td>
+              <td>
+                <a href="#etud/${aff.personid}/detail">${aff.lastname}</a>
+              </td>
+              <td>
+                ${aff.firstname}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm-1">&nbsp;</div>
+        <div class="col-sm-4">
+          <table id="link-table">
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Nom de famille</th>
+              <th>Prénom(s)</th>
+              <th>Genre</th>
+            </tr>
+            <tr repeat.for="evt of etudEvents">
+              <td>
+                <div if.bind="evt.has_url">
+                  <img src.bind="evt.url" height="48"></img>
+                </div>
+              </td>
+              <td>
+                <input type="checkbox" checked.bind="evt.selected" />
+              </td>
+              <td>
+                <a href="#etud/${evt.personid}/detail">${evt.lastname}</a>
+              </td>
+              <td>
+                ${evt.firstname}
+              </td>
+              <td>
+                ${evt.genre}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- -->
+  </div>
+</template>

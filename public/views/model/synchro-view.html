@@ -1,0 +1,119 @@
+<template>
+  <require from='./connect-bar'></require>
+  <connect-bar info.bind="userInfo"></connect-bar>
+  <div if.bind="isConnected">
+    <h2>${title}</h2>
+    <h3 show.bind="hasErrorMessage" class="text-danger">${errorMessage}</h3>
+    <h3 show.bind="hasInfoMessage" class="text-success">${infoMessage}</h3>
+    <div class="row" if.bind="hasApplicationCache">
+       <button type="button" click.delegate="updateCache()" class="btn btn-primary" show.bind="canUpdateCache">Mise à jour du cache</button>
+    </div>
+    <div class="row">
+      <div class="col-sm-1">&nbsp;</div>
+      <div class="col-sm-3">
+        <table>
+          <tbody>
+            <tr>
+              <td>Serveurs distants</td>
+            </tr>
+            <tr>
+              <td>
+                <select id="servers" value.bind="currentServer">
+                  <option repeat.for="serv of servers" value.bind="serv">${serv}</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button type="button" click.delegate="removeServer()" class="btn btn-primary"
+                disabled.bind="cannotRemoveServer">Supprimer</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>
+                  <div class="form-group">
+                    <label class="form-label" for="candidate">Url serveur</label>
+                    <input class="form-control" type="text" id="candidate"
+                    value.bind="candidateServer" placeholder="URL serveur"></input>
+                  </div>
+                  <button type="button" click.delegate="addServer()" class="btn btn-primary"
+                  disabled.bind="cannotAddServer">Ajouter</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-1">&nbsp;</div>
+      <div class="col-sm-3">
+        <table>
+          <tbody>
+            <tr>
+              <td >
+                <label class="form-label" for="currentServer">Serveur distant (IMPORT)</label>
+                <input class="form-control" type="text" id="currentServer"
+                value.bind="currentServer" readonly></input>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="btn-group">
+                  <button type="button" disabled.bind="cannotImport" click.delegate="import_from()" class="btn btn-primary">Importer du serveur distant</button>
+                  <button type="button" disabled.bind="cannotCancelImport" click.delegate="cancel_import()" class="btn btn-primary">Annuler</button>
+                  <button type="button" click.delegate="clear_import()" class="btn btn-primary">Effacer</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h4 class="text-success">${status_In}</h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <textarea class="form-control" id="description" rows="10"
+                readonly.bind="isReadOnly" value.bind="outputString_In"></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-1">&nbsp;</div>
+      <div class="col-sm-3">
+        <table>
+          <tbody>
+            <tr>
+              <td >
+                <label class="form-label" for="currentServer">Serveur distant (EXPORT)</label>
+                <input class="form-control" type="text" id="currentServer"
+                value.bind="currentServer" readonly></input>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="btn-group">
+                  <button type="button" disabled.bind="cannotExport" click.delegate="export_to()" class="btn btn-primary">Envoyer vers le serveur distant</button>
+                  <button type="button" disabled.bind="cannotCancelExport" click.delegate="cancel_export()" class="btn btn-primary">Annuler</button>
+                  <button type="button" click.delegate="clear_export()" class="btn btn-primary">Effacer</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h4 class="text-success">${status_Out}</h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <textarea class="form-control" id="description" rows="10"
+                readonly.bind="isReadOnly" value.bind="outputString_Out"></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+</template>

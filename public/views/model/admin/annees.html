@@ -1,0 +1,103 @@
+<template>
+  <require from='../connect-bar'></require>
+  <connect-bar info.bind="userInfo"></connect-bar>
+  <div class="container" if.bind="isConnected">
+    <h2>${title}</h2>
+    <h3 show.bind="hasErrorMessage" class="text-danger">${errorMessage}</h3>
+    <h3 show.bind="hasInfoMessage" class="text-success">${infoMessage}</h3>
+    <div class="row">
+      <div class="col-sm-4">&nbsp;</div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label class="form-label" for="departements">Département</label>
+          <select id="departements" value.bind="departement">
+            <option>Département...</option>
+            <option repeat.for="depelem of departements" model.bind="depelem">${depelem.text}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row" if.bind="canShowForm">
+      <div class="col-md-3 col-sm-3 col-xs-3" if.bind="hasItems">
+        <table>
+          <tbody>
+            <tr if.bind="hasPages">
+              <td>
+                <ul class="pagination">
+                  <li>
+                    <a href="#" click.delegate="firstPage()" show.bind="canPrevPage">Début</a>
+                  </li>
+                  <li>
+                    <a href="#" click.delegate="prevPage()" show.bind="canPrevPage">Préc.</a>
+                  </li>
+                  <li>
+                    <a href="#" click.delegate="nextPage()" show.bind="canNextPage">Suivant</a>
+                  </li>
+                  <li>
+                    <a href="#" click.delegate="lastPage()" show.bind="canNextPage">Fin</a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr if.bind="hasPages">
+              <td class="text-success"><strong>${pageStatus}</strong></td>
+            </tr>
+            <tr>
+              <td>
+                <select value.bind="currentItem" size="16">
+                  <option repeat.for="elem of items" model.bind="elem">${elem.text}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-4">
+        <div>
+          <button type="button" click.delegate="refreshAll()" class="btn btn-primary">Rafraîchir</button>
+        </div>
+        <form role="form">
+          <div if.bind="isEditItem" class="form-group">
+            <div if.bind="hasAvatarUrl">
+              <img src.bind="avatarUrl" height="128"></img>
+              <button type="button" show.bind="canRemoveAvatar" class="btn btn-primary" click.delegate="removeAvatar()">Supprimer</button>
+            </div>
+            <div>
+              <input type="file" id="fileToUpload" show.bind="isEditable" accept="image/png, image/jpeg" change.delegate="avatarFileChanged($event)"></input>
+            </div>
+            <div show.bind="hasWorkingUrl">
+              <img src.bind="workingUrl" height="128"></img>
+              <button type="button" show.bind="canSaveAvatar" class="btn btn-primary" click.delegate="saveAvatar()">Modifier</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="startDate">Date de début</label>
+            <input class="form-control" type="date" id="startDate" value.bind="startDate" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="endDate">Date de fin</label>
+            <input class="form-control" type="date" id="endDate" value.bind="endDate" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sigle">Abbréviation</label>
+            <input class="form-control" type="text" id="sigle" value.bind="sigle" placeholder="Abbréviation" readonly.bind="isReadOnly"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="name">Nom</label>
+            <input class="form-control" type="text" id="name" value.bind="name" readonly.bind="isReadOnly" placeholder="Nom"></input>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" id="description" readonly.bind="isReadOnly" value.bind="description"></textarea>
+          </div>
+          <div class="btn-group" if.bind="isEditable">
+            <button type="button" disabled.bind="cannotAdd" click.delegate="addNew()" class="btn btn-primary">Nouveau</button>
+            <button type="button" disabled.bind="cannotCancel" click.delegate="cancel()" class="btn btn-primary">Annuler</button>
+            <button type="button" disabled.bind="cannotSave" click.delegate="save()" class="btn btn-primary">Enregistrer</button>
+            <button type="button" disabled.bind="cannotRemove" click.delegate="remove()" class="btn btn-primary">Supprimer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
