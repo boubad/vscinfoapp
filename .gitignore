@@ -32,3 +32,4 @@ bower_components
 .zedstate
 dist/
 public/views/**/*.js
+public/views/**/*.map
