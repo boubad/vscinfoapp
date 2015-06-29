@@ -1,0 +1,35 @@
+<template>
+	<form role="form">
+		<div if.bind="isEditItem" class="form-group">
+			<div if.bind="hasAvatarUrl">
+				<img src.bind="avatarUrl" height="128"></img>
+				<button type="button" show.bind="canRemoveAvatar" class="btn btn-primary" click.delegate="removeAvatar()">Supprimer</button>
+			</div>
+			<div>
+				<input type="file" id="fileToUpload" show.bind="isEditable" accept="image/png, image/jpeg" change.delegate="avatarFileChanged($event)"></input>
+			</div>
+			<div show.bind="hasWorkingUrl">
+				<img src.bind="workingUrl" height="128"></img>
+				<button type="button" show.bind="canSaveAvatar" class="btn btn-primary" click.delegate="saveAvatar()">Modifier</button>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="sigle">Abbréviation</label>
+			<input class="form-control" type="text" id="sigle" value.bind="sigle" placeholder="Abbréviation" readonly.bind="isReadOnly"></input>
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="name">Nom</label>
+			<input class="form-control" type="text" id="name" value.bind="name" readonly.bind="isReadOnly" placeholder="Nom"></input>
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="description">Description</label>
+			<textarea class="form-control" id="description" readonly.bind="isReadOnly" value.bind="description"></textarea>
+		</div>
+		<div class="btn-group" if.bind="isSuper">
+			<button type="button" disabled.bind="cannotAdd" click.delegate="addNew()" class="btn btn-primary">Nouveau</button>
+			<button type="button" disabled.bind="cannotCancel" click.delegate="cancel()" class="btn btn-primary">Annuler</button>
+			<button type="button" disabled.bind="cannotSave" click.delegate="save()" class="btn btn-primary">Enregistrer</button>
+			<button type="button" disabled.bind="cannotRemove" click.delegate="remove()" class="btn btn-primary">Supprimer</button>
+		</div>
+	</form>
+</template>

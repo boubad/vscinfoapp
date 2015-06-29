@@ -2,20 +2,17 @@
     "version": "0.1.0",
     "command": "gulp",
     "isShellCommand": true,
-    "showOutput": "silent",
     "args": [
         "--no-color"
     ],
     "tasks": [
         {
-            "taskName": "build-ts",
-            "args": [],
+            "taskName": "build",
+            "args": ["-p", "."],    
             "isBuildCommand": true,
             "isWatching": false,
             "problemMatcher": [
-                "$lessCompile",
-                "$tsc",
-                "$jshint"
+                "$tsc"
             ]
         }
     ]
