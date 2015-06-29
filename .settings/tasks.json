@@ -8,11 +8,10 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": [],
+            "args": ["-p", "."],    
             "isBuildCommand": true,
             "isWatching": false,
             "problemMatcher": [
-                "$gulp-tsc",
                 "$tsc"
             ]
         }
