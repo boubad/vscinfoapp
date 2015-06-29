@@ -10,7 +10,7 @@ var ts = require('gulp-typescript');
 //var del = require('del');
 //
 var path = {
-    sourceTS: "Typescript/**/*.ts",
+    sourceTS: "Typescript/src/**/*.ts",
     sourceJS: "wwwroot/**/*.js",
     html: "wwwroot/**/*.html",
     style: "wwwroot/**/*.css"
@@ -40,15 +40,15 @@ gulp.task("copy-styles",function(){
     .pipe(gulp.dest('wwwroot'));
 });
 gulp.task("copy-html",function(){
-    return gulp.src('./Typescript/app/**/*.html',{base:'./Typescript/app'})
+    return gulp.src('./Typescript/src/**/*.html',{base:'./Typescript/src'})
     .pipe(gulp.dest('wwwroot'));
 });
 gulp.task("copy-files",['copy-images','copy-scripts','copy-styles','copy-html'],function(){
-     return gulp.src('./Typescript/app/**/*.ico',{base:'./Typescript/app'})
+     return gulp.src('./Typescript/src/**/*.ico',{base:'./Typescript/src'})
     .pipe(gulp.dest('wwwroot'));
 });
 gulp.task("all",['build-ts','copy-files'],function(){
-     return gulp.src('./Typescript/app/**/*.ico',{base:'./Typescript/app'})
+     return gulp.src('./Typescript/src/**/*.ico',{base:'./Typescript/src'})
     .pipe(gulp.dest('wwwroot'));
 });
 //

@@ -2,7 +2,7 @@
 node_modules
 wwwroot
 Typescript/**/*.js
-!Typescript/app/main.js
+!Typescript/src/main.js
 .DS_STORE
 .c9
 .zedstate

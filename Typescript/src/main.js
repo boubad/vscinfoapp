@@ -6,10 +6,10 @@ var baseUrl = origin + pathname.toLowerCase().replace("index.html", "");
 require.config({
 	baseUrl: baseUrl,
 	paths: {
-		aurelia: baseUrl + "lib/aurelia",
+		aurelia: baseUrl + "scripts/aurelia",
 		views: baseUrl + "views",
-		bluebird: baseUrl + "lib/bluebird/bluebird",
-		pouchdb: baseUrl + "lib/pouchdb/pouchdb.min"
+		bluebird: baseUrl + "scripts/bluebird/bluebird",
+		pouchdb: baseUrl + "scripts/pouchdb/pouchdb.min"
 	},
 	shim: {
 		"pouchdb": {
