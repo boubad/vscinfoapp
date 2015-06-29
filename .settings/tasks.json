@@ -7,10 +7,14 @@
     ],
     "tasks": [
         {
-            "taskName": "build-ts",
+            "taskName": "build",
             "args": [],
             "isBuildCommand": true,
-            "problemMatcher": ["$gulp-tsc","$tsc"]
+            "isWatching": false,
+            "problemMatcher": [
+                "$gulp-tsc",
+                "$tsc"
+            ]
         }
     ]
 }

@@ -36,7 +36,7 @@ gulp.task("copy-scripts",function(){
     .pipe(gulp.dest('wwwroot'));
 });
 gulp.task("copy-styles",function(){
-    return gulp.src('./lib/**/*',{base:'.'})
+    return gulp.src('./styles/**/*',{base:'.'})
     .pipe(gulp.dest('wwwroot'));
 });
 gulp.task("copy-js",function(){
@@ -47,7 +47,7 @@ gulp.task("copy-html",function(){
     return gulp.src('./Typescript/app/**/*.html',{base:'./Typescript/app'})
     .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("build",['clean','build-ts','copy-images','copy-scripts','copy-styles',
+gulp.task("build",['build-ts','copy-images','copy-scripts','copy-styles',
     'copy-js','copy-html'],function(){
      return gulp.src('./Typescript/app/**/*.ico',{base:'./Typescript/app'})
     .pipe(gulp.dest('wwwroot'));
