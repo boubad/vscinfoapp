@@ -2,7 +2,6 @@
     "version": "0.1.0",
     "command": "gulp",
     "isShellCommand": true,
-    "showOutput": "silent",
     "args": [
         "--no-color"
     ],
@@ -11,12 +10,7 @@
             "taskName": "build-ts",
             "args": [],
             "isBuildCommand": true,
-            "isWatching": false,
-            "problemMatcher": [
-                "$lessCompile",
-                "$tsc",
-                "$jshint"
-            ]
+            "problemMatcher": ["$gulp-tsc","$tsc"]
         }
     ]
 }
