@@ -5,7 +5,7 @@ import {IElementDesc} from 'infodata';
 //
 export class InfoRoot extends InfoElement {
     //
-    constructor(){
+    constructor() {
         super();
     }
     //
@@ -23,21 +23,21 @@ export class InfoRoot extends InfoElement {
         let s = d.toISOString() + '-' + sn;
         return s;
     } // create_date_random_id
-    public static check_value<T>(v:T) : T {
+    public static check_value<T>(v: T): T {
         return (v !== undefined) ? v : null;
     }
-    public static check_string(s:string) : string {
+    public static check_string(s: string): string {
         return ((s !== undefined) && (s !== null) && (s.trim().length > 0)) ? s.trim() : null;
     }
-    public static check_upper_string(s:string) : string {
+    public static check_upper_string(s: string): string {
         return ((s !== undefined) && (s !== null) && (s.trim().length > 0)) ?
-         s.trim().toUpperCase() : null;
+            s.trim().toUpperCase() : null;
     }
-    public static check_lower_string(s:string) : string {
+    public static check_lower_string(s: string): string {
         return ((s !== undefined) && (s !== null) && (s.trim().length > 0)) ?
-         s.trim().toLowerCase() : null;
+            s.trim().toLowerCase() : null;
     }
-    public static check_array<T>(cont:T[]) : T[]{
+    public static check_array<T>(cont: T[]): T[] {
         return ((cont !== undefined) && (cont !== null)) ? cont : [];
     }
     public static sync_array<T extends IElementDesc>(cont: T[], id: string): T {

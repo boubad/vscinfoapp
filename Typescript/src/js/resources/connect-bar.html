@@ -1,0 +1,59 @@
+<template>
+  <div class="row" if.bind="is_connected">
+    <table>
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td style="text-align:center">${fullname}</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td if.bind="has_url">
+            <a href="#" click.delegate="logout()">
+      <img src.bind="url" height="48" />
+    </a>
+          </td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+  <td style="text-align:center">
+            <a href="#" click.delegate="logout()">Déconnecter</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div if.bind="is_notconnected">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <img src.bind="imageUrl"></img>
+          </td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>
+            <form role="form">
+              <div class="form-group">
+                <label class="control-label">Identifiant</label>
+                <input id="username" type="text" class="form-control" value.bind="username" placeholder="Identifiant utilisateur"
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label">Mot de passe</label>
+                <input id="password" type="password" class="form-control" value.bind="password" placeholder="Mot de passe"
+                />
+              </div>
+              <div class="btn-group">
+                <button type="button" click.delegate="login()" disabled.bind="cannotConnect" class="btn btn-primary">Connecter</button>
+              </div>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

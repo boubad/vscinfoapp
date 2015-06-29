@@ -1,0 +1,41 @@
+<template>
+	<table>
+		<tbody>
+			<tr>
+				<td style="text-align:center">
+					<button type="button" click.delegate="refreshAll()" class="btn btn-primary">Rafraîchir</button>
+				</td>
+			</tr>
+			<tr if.bind="hasPages">
+				<td style="text-align:center">
+					<ul class="pagination">
+						<li>
+							<a href="#" click.delegate="firstPage()" show.bind="canPrevPage">Début</a>
+						</li>
+						<li>
+							<a href="#" click.delegate="prevPage()" show.bind="canPrevPage">Préc.</a>
+						</li>
+						<li>
+							<a href="#" click.delegate="nextPage()" show.bind="canNextPage">Suivant</a>
+						</li>
+						<li>
+							<a href="#" click.delegate="lastPage()" show.bind="canNextPage">Fin</a>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			<tr if.bind="hasPages">
+				<td class="text-success">
+					<strong>${pageStatus}</strong>
+				</td>
+			</tr>
+			<tr if.bind="hasItems">
+				<td style="text-align:center">
+					<select value.bind="currentItem" size="10">
+						<option repeat.for="elem of items" model.bind="elem">${elem.text}</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</template>

@@ -49,7 +49,7 @@ declare module 'infodata' {
         save: (service: IDataService) => Promise<IBaseItem>;
         remove: (service: IDataService) => Promise<any>;
         save_ifnotexists: (service: IDataService) => Promise<IBaseItem>;
-        check_avatar_url: (service: IDataService, man: IUIManager) => Promise<IBaseItem>
+        check_avatar_url: (service: IDataService, man: IUIManager) => Promise<IBaseItem>;
     }// interface IBaseItem
     export interface IPerson extends IBaseItem {
         username: string;
@@ -202,7 +202,7 @@ declare module 'infodata' {
         coefficient?: number;
     } // IGroupeEvent
     export interface IEtudEvent extends IInfoEvent {
-        etudaffectationid:string;
+        etudaffectationid: string;
         groupeeventid: string;
         note: number;
         groupeEventName?: string;
@@ -262,7 +262,7 @@ declare module 'infodata' {
         check_design_docs: () => Promise<boolean>;
         check_database: () => Promise<any>
         check_ids: (ids: string[]) => Promise<string[]>;
-        get_children_ids: (viewName:string, keyVal:string) => Promise<string[]>;
+        get_children_ids: (viewName: string, keyVal: string) => Promise<string[]>;
     }
     //
     export interface IDatabaseManager extends IDesignDatabaseManager {
@@ -312,5 +312,6 @@ declare module 'infodata' {
         info?: string;
         source?: any;
         error?: string;
+        tag?: string;
     }// interface IInfoMessage
 }// module infodata
