@@ -1,9 +1,0 @@
-{
-  "name": "vscinfo",
-  "private": true,
-  "dependencies": {
-    "bluebird": "~2.9.30",
-    "pouchdb": "~3.6.0",
-    "requirejs": "~2.1.18"
-  }
-}

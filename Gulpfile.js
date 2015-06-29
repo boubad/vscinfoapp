@@ -17,42 +17,50 @@ var path = {
 };
 var tsProject = ts.createProject('tsconfig.json', { typescript: require('typescript') });
 //
-gulp.task('clean',function(){
+gulp.task('clean', function () {
     return gulp.src("wwwroot/*")
-    .pipe(clean());
+        .pipe(clean());
+});
+gulp.task('clean-temp', function () {
+    return gulp.src("./temp/*")
+        .pipe(clean());
 });
 //
-gulp.task('build-ts',function () {
+gulp.task('build-ts',['clean-temp'], function () {
     var tsResult = tsProject.src() // instead of gulp.src(...) 
         .pipe(ts(tsProject));
-    return tsResult.js.pipe(gulp.dest('./wwwroot'));
+    return tsResult.js.pipe(gulp.dest('./temp'));
 });
-gulp.task("copy-images",function(){
-    return gulp.src('./images/**/*',{base:'.'})
-    .pipe(gulp.dest('wwwroot'));
+gulp.task("build",['build-ts'], function () {
+    gulp.src('./temp/Typescript/src/**/*', { base: './temp/Typescript/src' })
+        .pipe(gulp.dest('./wwwroot'));
 });
-gulp.task("copy-scripts",function(){
-    return gulp.src('./lib/**/*',{base:'.'})
-    .pipe(gulp.dest('wwwroot'));
+gulp.task("copy-images", function () {
+    return gulp.src('./images/**/*', { base: '.' })
+        .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("copy-styles",function(){
-    return gulp.src('./styles/**/*',{base:'.'})
-    .pipe(gulp.dest('wwwroot'));
+gulp.task("copy-scripts", function () {
+    return gulp.src('./lib/**/*', { base: '.' })
+        .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("copy-html",function(){
-    return gulp.src('./Typescript/src/**/*.html',{base:'./Typescript/src'})
-    .pipe(gulp.dest('wwwroot'));
+gulp.task("copy-styles", function () {
+    return gulp.src('./styles/**/*', { base: '.' })
+        .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("copy-files",['copy-images','copy-scripts','copy-styles','copy-html'],function(){
-     return gulp.src('./Typescript/src/**/*.ico',{base:'./Typescript/src'})
-    .pipe(gulp.dest('wwwroot'));
+gulp.task("copy-html", function () {
+    return gulp.src('./Typescript/src/**/*.html', { base: './Typescript/src' })
+        .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("all",['build-ts','copy-files'],function(){
-     return gulp.src('./Typescript/src/**/*.ico',{base:'./Typescript/src'})
-    .pipe(gulp.dest('wwwroot'));
+gulp.task("copy-files", ['copy-images', 'copy-scripts', 'copy-styles', 'copy-html'], function () {
+    return gulp.src('./Typescript/src/**/*.ico', { base: './Typescript/src' })
+        .pipe(gulp.dest('wwwroot'));
+});
+gulp.task("all", ['build-ts', 'copy-files'], function () {
+    return gulp.src('./Typescript/src/**/*.ico', { base: './Typescript/src' })
+        .pipe(gulp.dest('wwwroot'));
 });
 //
-gulp.task('serve',['all'] ,function (done) {
+gulp.task('serve', ['all'], function (done) {
     browserSync({
         open: false,
         port: 9000,

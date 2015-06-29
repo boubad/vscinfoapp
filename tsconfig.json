@@ -3,7 +3,7 @@
     "compilerOptions": {
         "target": "es5",
         "module": "amd",
-        "outDir": "wwwwroot",
+        "outDir": "./temp",
         "declaration": false,
         "noImplicitAny": false,
         "removeComments": false,
@@ -16,5 +16,10 @@
     "!./node_modules/**/*.ts",
     "!./bower_components/**/*.ts"
   ],
-  "files": []
+  "files": [
+    "./Typescript/src/utils/elementdesc.ts",
+    "./Typescript/src/utils/infoconstants.ts",
+    "./Typescript/src/utils/infoelement.ts",
+    "./Typescript/src/utils/inforoot.ts"
+  ]
 }

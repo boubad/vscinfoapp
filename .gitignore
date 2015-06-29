@@ -1,6 +1,7 @@
 # Logs
 node_modules
 wwwroot
+temp
 Typescript/**/*.js
 !Typescript/src/main.js
 .DS_STORE
