@@ -1,6 +1,6 @@
 // infodata.d.ts
 //
-/// <reference path='../typings/es6.d.ts' />
+/// <reference path='../../typings/es6.d.ts' />
 //
 declare module 'infodata' {
     //

@@ -40,7 +40,7 @@ gulp.task("copy-images", function () {
         .pipe(gulp.dest('wwwroot'));
 });
 gulp.task("copy-scripts", function () {
-    return gulp.src('./lib/**/*', { base: '.' })
+    return gulp.src('./js/**/*', { base: '.' })
         .pipe(gulp.dest('wwwroot'));
 });
 gulp.task("copy-styles", function () {
@@ -51,11 +51,15 @@ gulp.task("copy-html", function () {
     return gulp.src('./Typescript/src/**/*.html', { base: './Typescript/src' })
         .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("copy-files", ['copy-images', 'copy-scripts', 'copy-styles', 'copy-html'], function () {
+gulp.task("copy-js", function () {
+    return gulp.src('./Typescript/src/*.js', { base: './Typescript/src' })
+        .pipe(gulp.dest('wwwroot'));
+});
+gulp.task("copy-files", ['copy-images', 'copy-scripts', 'copy-styles', 'copy-html','copy-js'], function () {
     return gulp.src('./Typescript/src/**/*.ico', { base: './Typescript/src' })
         .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("all", ['build-ts', 'copy-files'], function () {
+gulp.task("all", ['build', 'copy-files'], function () {
     return gulp.src('./Typescript/src/**/*.ico', { base: './Typescript/src' })
         .pipe(gulp.dest('wwwroot'));
 });

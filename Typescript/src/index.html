@@ -9,15 +9,15 @@
         <link href="styles/styles.css" rel="stylesheet" />
     </head>
     
-    <body aurelia-app='views/common/main'>
+    <body aurelia-app='js/main'>
         <div class="splash">
             <div class="message">InfoApp starting...</div>
             <i class="fa fa-spinner fa-spin"></i>
         </div>
-        <script src="lib/bluebird/bluebird.js"></script>
-        <script src="lib/pouchdb/pouchdb.min.js"></script>
-        <script src="lib/core-js/client/core.js"></script>
-        <script src="lib/requirejs/require.js" data-main="main"></script>
+        <script src="js/lib/bluebird/bluebird.js"></script>
+        <script src="js/lib/pouchdb/pouchdb.min.js"></script>
+        <script src="js/lib/core-js/client/core.js"></script>
+        <script src="js/lib/requirejs/require.js" data-main="main-init"></script>
     </body>
 
 </html>

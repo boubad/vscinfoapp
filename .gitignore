@@ -3,7 +3,7 @@ node_modules
 wwwroot
 temp
 Typescript/**/*.js
-!Typescript/src/main.js
+!Typescript/src/main-init.js
 .DS_STORE
 .c9
 .zedstate

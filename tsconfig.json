@@ -1,25 +1,30 @@
 ﻿{
   "version": "1.5.3",
-    "compilerOptions": {
-        "target": "es5",
-        "module": "amd",
-        "outDir": "./temp",
-        "declaration": false,
-        "noImplicitAny": false,
-        "removeComments": false,
-        "noLib": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
-    },
+  "compilerOptions": {
+    "target": "es5",
+    "module": "amd",
+    "outDir": "./temp",
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
   "filesGlob": [
     "./**/*.ts",
     "!./node_modules/**/*.ts",
     "!./bower_components/**/*.ts"
   ],
   "files": [
-    "./Typescript/src/utils/elementdesc.ts",
-    "./Typescript/src/utils/infoconstants.ts",
-    "./Typescript/src/utils/infoelement.ts",
-    "./Typescript/src/utils/inforoot.ts"
+    "./Typescript/src/js/app.ts",
+    "./Typescript/src/js/main.ts",
+    "./Typescript/src/js/welcome.ts",
+    "./Typescript/src/js/resources/index.ts",
+    "./Typescript/src/js/resources/nav-bar.ts",
+    "./Typescript/src/js/utils/elementdesc.ts",
+    "./Typescript/src/js/utils/infoconstants.ts",
+    "./Typescript/src/js/utils/infoelement.ts",
+    "./Typescript/src/js/utils/inforoot.ts"
   ]
 }
