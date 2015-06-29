@@ -21,7 +21,6 @@ gulp.task('build-ts', function () {
          emitDecoratorMetadata: true,
          experimentalDecorators: true
     }));
-
     return merge([
         tsResult.dts.pipe(gulp.dest('.')),
         tsResult.js.pipe(gulp.dest('.')),
@@ -47,8 +46,8 @@ var path = {
   html: "public/views/**/*.html",
   style: "public/styles/**/*.css",
   manifest: "public/*.manifest"
-}
-
+};
+//
 gulp.task('serve', function(done) {
   browserSync({
     open: false,
@@ -62,11 +61,11 @@ gulp.task('serve', function(done) {
     }
   }, done);
 });
-
+//
 function reportChange(event) {
   console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 }
-
+//
 gulp.task('watch', ['serve'], function() {
   gulp.watch(path.sourceJS, [browserSync.reload]).on('change', reportChange);
   gulp.watch(path.html, [browserSync.reload]).on('change', reportChange);

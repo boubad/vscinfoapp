@@ -12,7 +12,7 @@ const ADMIN_MODULE: string = './model/admin/admin-router';
 const CONSULT_MODULE: string = './model/consult/consult-router';
 const SYNCHRO_MODULE: string = './model/synchro-view';
 //
-import {UserInfo} from './model/userinfo';
+import * as cUserInfo from './model/userinfo';
 //const PROFIL_MODULE: string = './model/common/profil';
 //const ADMIN_MODULE: string = './model/admin/admin-router';
 //const PROF_MODULE: string = './model/prof/prof-router';
@@ -21,10 +21,10 @@ import {UserInfo} from './model/userinfo';
 @autoinject
 export class App {
     public router: Router = null;
-    public userInfo: UserInfo = null;
+    public userInfo: cUserInfo.UserInfo = null;
     //public userInfo: InfoUserInfo = null;
     //
-    constructor(userinfo: UserInfo) {
+    constructor(userinfo:cUserInfo.UserInfo) {
         this.userInfo = userinfo;
     }
     //

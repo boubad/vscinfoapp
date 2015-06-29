@@ -1,8 +1,11 @@
 //userinfo.ts
 //
+/// <reference path='../../../typings/aurelia/aurelia-framework.d.ts' />
+/// <reference path='../../../typings/aurelia/aurelia-event-aggregator.d.ts' />
+//
 import {InfoElement} from '../infoelement';
 import {autoinject} from 'aurelia-framework';
-import {EventAggregator} from 'aurelia-event-aggregator';
+import * as evtAgg from 'aurelia-event-aggregator';
 //
 
 import {SessionStore} from '../common/sessionstore';
@@ -24,7 +27,7 @@ import {EnseignantPerson} from '../domain/profperson';
 //
 @autoinject
 export class UserInfo extends InfoElement {
-    public eventAggregator:EventAggregator = null;
+    public eventAggregator:evtAgg.EventAggregator = null;
     public store: SessionStore;
     public loginInfo: LoginInfo;
     public dataService:DataService;
@@ -53,7 +56,7 @@ export class UserInfo extends InfoElement {
     private _matiere: IMatiere = null;
     private _groupe: IGroupe = null;
     //
-    constructor(eventAggregator:EventAggregator) {
+    constructor(eventAggregator:evtAgg.EventAggregator) {
       super();
         this.eventAggregator = eventAggregator;
         this.store = new SessionStore();
