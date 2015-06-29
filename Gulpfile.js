@@ -11,9 +11,9 @@ var ts = require('gulp-typescript');
 //
 var path = {
     sourceTS: "Typescript/**/*.ts",
-    sourceJS: "Typescript/**/*.js",
-    html: "Typescript/**/*.html",
-    style: "styles/**/*.css"
+    sourceJS: "wwwroot/**/*.js",
+    html: "wwwroot/**/*.html",
+    style: "wwwroot/**/*.css"
 };
 var tsProject = ts.createProject('tsconfig.json', { typescript: require('typescript') });
 //
@@ -25,7 +25,7 @@ gulp.task('clean',function(){
 gulp.task('build-ts',function () {
     var tsResult = tsProject.src() // instead of gulp.src(...) 
         .pipe(ts(tsProject));
-    return tsResult.js.pipe(gulp.dest('.'));
+    return tsResult.js.pipe(gulp.dest('./wwwroot'));
 });
 gulp.task("copy-images",function(){
     return gulp.src('./images/**/*',{base:'.'})
@@ -39,21 +39,20 @@ gulp.task("copy-styles",function(){
     return gulp.src('./styles/**/*',{base:'.'})
     .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("copy-js",function(){
-    return gulp.src('Typescript/app/**/*.js',{base:'./Typescript/app'})
-    .pipe(gulp.dest('wwwroot'));
-});
 gulp.task("copy-html",function(){
     return gulp.src('./Typescript/app/**/*.html',{base:'./Typescript/app'})
     .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("build",['build-ts','copy-images','copy-scripts','copy-styles',
-    'copy-js','copy-html'],function(){
+gulp.task("copy-files",['copy-images','copy-scripts','copy-styles','copy-html'],function(){
+     return gulp.src('./Typescript/app/**/*.ico',{base:'./Typescript/app'})
+    .pipe(gulp.dest('wwwroot'));
+});
+gulp.task("all",['build-ts','copy-files'],function(){
      return gulp.src('./Typescript/app/**/*.ico',{base:'./Typescript/app'})
     .pipe(gulp.dest('wwwroot'));
 });
 //
-gulp.task('serve',['build'] ,function (done) {
+gulp.task('serve',['all'] ,function (done) {
     browserSync({
         open: false,
         port: 9000,
@@ -67,7 +66,6 @@ gulp.task('serve',['build'] ,function (done) {
     }, done);
 });
 //
-/*
 function reportChange(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 }
@@ -76,4 +74,3 @@ gulp.task('watch', ['serve'], function () {
     gulp.watch(path.html, [browserSync.reload]).on('change', reportChange);
     gulp.watch(path.style, [browserSync.reload]).on('change', reportChange);
 });
-*/
