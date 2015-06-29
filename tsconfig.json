@@ -92,7 +92,7 @@
         "./Typescript/src/js/viewmodel/userelement.ts",
         "./Typescript/src/js/viewmodel/userinfo.ts",
         "./Typescript/src/js/viewmodel/workviewmodel.ts",
-        "./Typescript/src/js/welcome.ts",
+        "./Typescript/src/js/views/welcome.ts",
         "./Typescript/typings/aurelia-amd/aurelia-amd.d.ts",
         "./Typescript/typings/aurelia/aurelia-animator-css.d.ts",
         "./Typescript/typings/aurelia/aurelia-app-contacts.d.ts",

@@ -2,7 +2,7 @@
 //
 import {Router} from 'aurelia-router';
 //
-const HOME ='./welcome';
+const HOME ='./views/welcome';
 //
 export class App {
 	public router:Router;
