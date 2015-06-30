@@ -1,0 +1,41 @@
+<template>
+	<connect-bar info.bind="userInfo"></connect-bar>
+	<div class="container" if.bind="isConnected">
+		<table>
+			<tbody>
+				<tr>
+					<td style="text-align:center">
+						<h2>${title}</h2>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:center">
+						<h3 show.bind="hasErrorMessage" class="text-danger">${errorMessage}</h3>
+						<h3 show.bind="hasInfoMessage" class="text-success">${infoMessage}</h3>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+							<label class="form-label" for="departements">Département</label>
+							<select id="departements" value.bind="departement">
+								<option>Département...</option>
+								<option repeat.for="depelem of departements" model.bind="depelem">${depelem.text}</option>
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr if:bind="canShowForm">
+					<td style="text-align:center">
+						<elements-bar></elements-bar>
+					</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>
+						<person-bar ></person-bar>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</template>

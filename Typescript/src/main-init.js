@@ -9,8 +9,8 @@ require.config({
 		aurelia: baseUrl + "js/lib/aurelia",
 		js: baseUrl + "js",
 		resources: baseUrl + 'resources',
-		bluebird: baseUrl + "scripts/bluebird/bluebird",
-		pouchdb: baseUrl + "scripts/pouchdb/pouchdb.min"
+		bluebird: baseUrl + "js/lib/bluebird/bluebird",
+		pouchdb: baseUrl + "js/lib/pouchdb/pouchdb.min"
 	},
 	shim: {
 		"pouchdb": {

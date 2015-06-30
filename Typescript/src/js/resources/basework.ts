@@ -10,6 +10,10 @@ export class BaseWork extends BaseBar {
 		return 'BaseWork';
 	}
 	//
+	public get userInfo():any {
+		return (this.parent !== null) ? this.parent.userInfo : null;
+	}
+	//
 	public get isSuper(): boolean {
 		return (this.parent !== null) ? this.parent.isSuper : false;
 	}
@@ -170,4 +174,86 @@ export class BaseWork extends BaseBar {
 			this.parent.remove();
 		}
 	}
+	//
+	public get title():string {
+		return (this.parent !== null) ? this.parent.title : null;
+	}
+	//
+	public get canShowForm():boolean {
+		return (this.parent !== null) ? this.parent.canShowForm : false;
+	}
+	//
+	public get departements():any[]{
+		return (this.parent !== null) ? this.parent.departements : [];
+	}
+	public get departement():any {
+		return (this.parent !== null) ? this.parent.departement : null;
+	}
+	public set departement(s: any){
+		if (this.parent !== null){
+			this.parent.departement = s;
+		}
+	}
+	//
+	//
+	public get annees():any[]{
+		return (this.parent !== null) ? this.parent.annees : [];
+	}
+	public get annee():any {
+		return (this.parent !== null) ? this.parent.annee : null;
+	}
+	public set annee(s: any){
+		if (this.parent !== null){
+			this.parent.annee = s;
+		}
+	}
+	//
+	public get semestres():any[]{
+		return (this.parent !== null) ? this.parent.semestres : [];
+	}
+	public get semestre():any {
+		return (this.parent !== null) ? this.parent.semestre : null;
+	}
+	public set semestre(s: any){
+		if (this.parent !== null){
+			this.parent.semestre = s;
+		}
+	}
+	//
+	public get unites():any[]{
+		return (this.parent !== null) ? this.parent.unites : [];
+	}
+	public get unite():any {
+		return (this.parent !== null) ? this.parent.unite : null;
+	}
+	public set unite(s: any){
+		if (this.parent !== null){
+			this.parent.unite = s;
+		}
+	}
+	//
+	public get matieres():any[]{
+		return (this.parent !== null) ? this.parent.matieres : [];
+	}
+	public get matiere():any {
+		return (this.parent !== null) ? this.parent.matiere : null;
+	}
+	public set matiere(s: any){
+		if (this.parent !== null){
+			this.parent.matiere = s;
+		}
+	}
+	//
+	public get groupes():any[]{
+		return (this.parent !== null) ? this.parent.groupes : [];
+	}
+	public get groupe():any {
+		return (this.parent !== null) ? this.parent.groupe : null;
+	}
+	public set groupe(s: any){
+		if (this.parent !== null){
+			this.parent.groupe = s;
+		}
+	}
+
 }// class BaseWork
