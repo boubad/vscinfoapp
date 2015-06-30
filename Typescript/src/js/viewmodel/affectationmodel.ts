@@ -112,17 +112,13 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
         }
         return this._person_model;
     }
-    public post_change_annee(): Promise<any> {
-        let self = this;
-        return super.post_change_annee().then((r) => {
-            self.modelItem.anneeid = self.anneeid;
-            self.modelItem.semestreid = null;
-            return self.refreshAll();
-        })
-    }
+
     public post_change_groupe(): Promise<any> {
         let self = this;
         return super.post_change_groupe().then((r) => {
+            self.modelItem.departementid = self.departementid;
+            self.modelItem.anneeid = self.anneeid;
+            self.modelItem.semestreid = self.semestreid;
             self.modelItem.groupeid = self.groupeid;
             return self.refreshAll();
         });
@@ -130,7 +126,10 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
     public post_change_semestre(): Promise<any> {
         let self = this;
         return super.post_change_semestre().then((r) => {
+            self.modelItem.departementid = self.departementid;
+            self.modelItem.anneeid = self.anneeid;
             self.modelItem.semestreid = self.semestreid;
+            self.modelItem.groupeid = self.groupeid;
             self._start = null;
             self._end = null;
             let sem = self.semestre;
@@ -138,7 +137,7 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
                 self._start = sem.startDate;
                 self._end = sem.endDate;
             }
-            return this.refreshAll();
+            return self.refreshAll();
         });
     }
     public post_change_departement(): Promise<any> {
@@ -156,6 +155,12 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
         }).then((pp: P[]) => {
             self.persons = ((pp !== undefined) && (pp !== null)) ? pp : [];
             return true;
+        }).then((x) => {
+            self.modelItem.departementid = self.departementid;
+            self.modelItem.anneeid = self.anneeid;
+            self.modelItem.semestreid = self.semestreid;
+            self.modelItem.groupeid = self.groupeid;
+            return self.refreshAll();
         });
     }// post_change_departement
     public get canRemove(): boolean {

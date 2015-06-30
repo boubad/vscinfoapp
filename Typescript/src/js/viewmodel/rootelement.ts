@@ -154,7 +154,7 @@ export class RootElement extends InfoElement {
 			this.eventAggregator.publish(INFO_MESSAGE_CHANNEL, payload);
 		}
 	}// publish
-	protected message_received(message: IInfoMessage): Promise<boolean> {
+	protected message_received(message: IInfoMessage): Promise<any> {
 		return Promise.resolve(true);
 	}// message_received
 	public retrieve_one_avatar(item: IBaseItem): Promise<IBaseItem> {

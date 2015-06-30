@@ -14,15 +14,15 @@ import {LoginInfo} from '../data/services/logininfo';
 import {EtudiantPerson} from '../data/domain/etudperson';
 import {IPerson, IDepartement, IAnnee, ISemestre, IUnite, IMatiere, IGroupe, IDataService} from 'infodata';
 import {InfoRoot} from '../utils/inforoot';
-import {DATABASE_NAME, PERSON_KEY, DEPARTEMENTID_KEY, ANNEEID_KEY,
-SEMESTREID_KEY, UNITEID_KEY, MATIEREID_KEY, GROUPEID_KEY, ETUDIANTID_KEY,
-ENSEIGNANTID_KEY, ETUDIANTPERSON_KEY, ENSEIGNANTPERSON_KEY,
-ADMINISTRATORPERSON_KEY} from '../utils/infoconstants';
+import {DATABASE_NAME, PERSON_KEY, ETUDIANTPERSON_KEY, ENSEIGNANTPERSON_KEY,
+DEPARTEMENT_TYPE, ANNEE_TYPE, SEMESTRE_TYPE, UNITE_TYPE, MATIERE_TYPE, GROUPE_TYPE,
+MESSAGE_DOMAIN} from '../utils/infoconstants';
 import {DataService} from '../data/services/dataservice';
-import {IObjectStore, ILoginInfo} from 'infodata';
+import {IObjectStore, ILoginInfo, IInfoMessage} from 'infodata';
 import {UIManager} from '../utils/uimanager';
 import {AdministratorPerson} from '../data/domain/adminperson';
 import {EnseignantPerson} from '../data/domain/profperson';
+import {InfoMessage} from '../utils/infomessage';
 //
 @autoinject
 export class UserInfo extends RootElement {
@@ -60,6 +60,13 @@ export class UserInfo extends RootElement {
         this.loginInfo = new LoginInfo();
     }// constructor
     //
+    private notify_change(message: string) {
+        let p = new InfoMessage();
+        p.type = MESSAGE_DOMAIN;
+        p.categ = message;
+        this.publish_message(p);
+    }
+    //
     protected get_logger_name(): string {
         return 'UserInfo';
     }
@@ -67,195 +74,80 @@ export class UserInfo extends RootElement {
         return (this._event !== undefined) ? this._event : null;
     }
     //
-    public departement_changed(): void {
-    }// departement_changed
-    public annee_changed(): void {
-    }// annee_changed
-    public unite_changed(): void {
-    }// unite_changed
-    public groupe_changed(): void {
-    }// groupe_changed
-    public semestre_changed(): void {
-    }// semestre_changed
-    public matiere_changed(): void {
-    }// matiere_changed
+    public get semestre(): ISemestre {
+        return (this._semestre !== undefined) ? this._semestre : null;
+    }
+    public set semestre(s: ISemestre) {
+        this._semestre = (s !== undefined) ? s : null;
+        this.notify_change(SEMESTRE_TYPE);
+    }
+    public get groupe(): IGroupe {
+        return (this._groupe !== undefined) ? this._groupe : null;
+    }
+    public set groupe(s: IGroupe) {
+        this._groupe = (s !== undefined) ? s : null;
+        this.notify_change(GROUPE_TYPE);
+    }
     //
-    public get departementid(): string {
-        return this.sessionStore.get_value(DEPARTEMENTID_KEY);
+    public get matiere(): IMatiere {
+        return (this._matiere !== undefined) ? this._matiere : null;
     }
-    public set departementid(s: string) {
-        let id = InfoRoot.check_string(s);
-        this.sessionStore.remove_value(ANNEEID_KEY);
-        this.sessionStore.remove_value(UNITEID_KEY);
-        this.sessionStore.remove_value(GROUPEID_KEY);
-        this.sessionStore.store_value(DEPARTEMENTID_KEY, id);
-        this.post_update_departement();
-        this.departement_changed();
+    public set matiere(s: IMatiere) {
+        this._matiere = (s !== undefined) ? s : null;
+        this.notify_change(MATIERE_TYPE);
     }
-    public change_departementid(s: string): Promise<any> {
-        let id = InfoRoot.check_string(s);
-        this.sessionStore.remove_value(ANNEEID_KEY);
-        this.sessionStore.remove_value(UNITEID_KEY);
-        this.sessionStore.remove_value(GROUPEID_KEY);
-        this.sessionStore.store_value(DEPARTEMENTID_KEY, id);
-        return this.post_update_departement();
-    }// change_departementid
+    //
     public get departement(): IDepartement {
-        return this._departement;
+        return (this._departement !== undefined) ? this._departement : null;
     }
     public set departement(s: IDepartement) {
         this._departement = (s !== undefined) ? s : null;
-        let id = (this.departement !== null) ? this.departement.id : null;
-        this._unite = null;
-        this._annee = null;
-        this._groupe = null;
-        this.change_departementid(id);
-    }
-    public get anneeid(): string {
-        return this.sessionStore.get_value(ANNEEID_KEY);
-    }
-    public set anneeid(s: string) {
-        let id = InfoRoot.check_string(s);
-        this.sessionStore.store_value(ANNEEID_KEY, id);
-        this.sessionStore.remove_value(SEMESTREID_KEY);
-        this.post_update_annee();
-        this.annee_changed();
-    }
-    public change_anneeid(s: string): Promise<any> {
-        let id = InfoRoot.check_string(s);
-        this.sessionStore.store_value(ANNEEID_KEY, id);
-        this.sessionStore.remove_value(SEMESTREID_KEY);
-        return this.post_update_annee();
-    }
-    public get uniteid(): string {
-        return this.sessionStore.get_value(UNITEID_KEY);
-    }
-    public set uniteid(s: string) {
-        let id = InfoRoot.check_string(s);
-        this.matieres = [];
-        this.sessionStore.remove_value(MATIEREID_KEY);
-        this.sessionStore.store_value(UNITEID_KEY, id);
-        this.post_update_unite();
-        this.unite_changed();
-    }
-    public change_uniteid(s: string): Promise<any> {
-        let id = InfoRoot.check_string(s);
-        this.matieres = [];
-        this.sessionStore.remove_value(MATIEREID_KEY);
-        this.sessionStore.store_value(UNITEID_KEY, id);
-        return this.post_update_unite();
-    }
-    public get semestreid(): string {
-        return this.sessionStore.get_value(SEMESTREID_KEY);
-    }
-    public set semestreid(s: string) {
-        this.sessionStore.store_value(SEMESTREID_KEY, s);
-        this.semestre_changed();
-    }
-    public get matiereid(): string {
-        return this.sessionStore.get_value(MATIEREID_KEY);
-    }
-    public set matiereid(s: string) {
-        this.sessionStore.store_value(MATIEREID_KEY, s);
-        this.matiere_changed();
-    }
-    public get groupeid(): string {
-        return this.sessionStore.get_value(GROUPEID_KEY);
-    }
-    public set groupeid(s: string) {
-        let id = InfoRoot.check_string(s);
-        this.sessionStore.store_value(GROUPEID_KEY, id);
-        this.groupe_changed();
-    }
-    public get enseignantid(): string {
-        return this.sessionStore.get_value(ENSEIGNANTID_KEY);
-    }
-    public set enseignantid(s: string) {
-        let id = InfoRoot.check_string(s);
-        this.sessionStore.store_value(ENSEIGNANTID_KEY, id);
-    }
-    public get etudiantid(): string {
-        return this.sessionStore.get_value(ETUDIANTID_KEY);
-    }
-    public set etudiantid(s: string) {
-        let id = InfoRoot.check_string(s);
-        this.sessionStore.store_value(ETUDIANTID_KEY, id);
+        let self = this;
+        this.post_update_departement().then((r) => {
+            self.notify_change(DEPARTEMENT_TYPE);
+        });
     }
     public get annee(): IAnnee {
-        return this._annee;
+        return (this._annee !== undefined) ? this._annee : null;
     }
     public set annee(s: IAnnee) {
         this._annee = (s !== undefined) ? s : null;
-        let id = (this.annee !== null) ? this.annee.id : null;
-        this._semestre = null;
-        this.change_anneeid(id);
+        let self = this;
+        this.post_update_annee().then((r) => {
+            self.notify_change(ANNEE_TYPE);
+        });
     }
     public get unite(): IUnite {
         return this._unite;
     }
     public set unite(s: IUnite) {
         this._unite = (s !== undefined) ? s : null;
-        let id = (this.unite !== null) ? this.unite.id : null;
-        this._matiere = null;
-        this.change_uniteid(id);
+        let self = this;
+        this.post_update_unite().then((r) => {
+            self.notify_change(UNITE_TYPE);
+        });
     }
     //
-    public get semestre(): ISemestre {
-        return this._semestre;
+    public get departementid(): string {
+        return (this.departement !== null) ? this.departement.id : null;
     }
-    public set semestre(s: ISemestre) {
-        this._semestre = (s !== undefined) ? s : null;
-        let id = (this.semestre !== null) ? this.semestre.id : null;
-        this.semestreid = id;
+    public get anneeid(): string {
+        return (this.annee !== null) ? this.annee.id : null;
     }
-    public get groupe(): IGroupe {
-        return this._groupe;
+    public get uniteid(): string {
+        return (this.unite !== null) ? this.unite.id : null;
     }
-    public set groupe(s: IGroupe) {
-        this._groupe = (s !== undefined) ? s : null;
-        let id = (this.groupe !== null) ? this.groupe.id : null;
-        this.groupeid = id;
+    public get semestreid(): string {
+        return (this.semestre !== null) ? this.semestre.id : null;
     }
-    //
-    public get matiere(): IMatiere {
-        return this._matiere;
+    public get matiereid(): string {
+        return (this.matiere !== null) ? this.matiere.id : null;
     }
-    public set matiere(s: IMatiere) {
-        this._matiere = (s !== undefined) ? s : null;
-        let id = (this.matiere !== null) ? this.matiere.id : null;
-        this.matiereid = id;
+    public get groupeid(): string {
+        return (this.groupe !== null) ? this.groupe.id : null;
     }
-    //
-    public check_person(): Promise<any> {
-        if ((this._pers !== null) && (this._pers.id !== null)) {
-            return Promise.resolve(true);
-        }
-        this._pers = null;
-        let sval = this.sessionStore.get_value(PERSON_KEY);
-        if (sval === null) {
-            return Promise.resolve(true);
-        }
-        let pPers: IPerson = null;
-        try {
-            let oMap: any = JSON.parse(sval);
-            if ((oMap !== undefined) && (oMap !== null) && (oMap.type !== undefined) &&
-                (oMap.type !== null)) {
-                let stype = oMap.type.trim().toLowerCase();
-                if (stype == PERSON_KEY) {
-                    pPers = new Person(oMap);
-                } else if (stype == ETUDIANTPERSON_KEY) {
-                    pPers = new EtudiantPerson(oMap);
-                } else if (stype == ENSEIGNANTPERSON_KEY) {
-                    pPers = new EnseignantPerson(oMap);
-                } else if (stype == ADMINISTRATORPERSON_KEY) {
-                    pPers = new AdministratorPerson(oMap);
-                }
-            }// type
-        } catch (e) { }
-        return this.change_person(pPers);
-    }// check_person
     public get person(): IPerson {
-        return this._pers;
+        return (this._pers !== undefined) ? this._pers : null;
     }// get person
     public get photoUrl(): string {
         return ((this.person !== undefined) && (this.person !== null)) ? this.person.url : null;
@@ -293,13 +185,6 @@ export class UserInfo extends RootElement {
                 self._allgroupes = data.groupes;
                 self._allmatieres = data.matieres;
                 self._allsemestres = data.semestres;
-                try {
-                    let oMap: any = {};
-                    px.to_map(oMap);
-                    let sval = JSON.stringify(oMap);
-                    self.sessionStore.store_value(PERSON_KEY, sval);
-                    self._pers = px;
-                } catch (e) { }
                 return true;
             } else {
                 self.loginInfo.clear();
@@ -310,7 +195,6 @@ export class UserInfo extends RootElement {
     public logout(): void {
         this.loginInfo.clear();
         this.clear_data();
-        this.sessionStore.clear();
     }// logout
     public change_person(pPers: IPerson): Promise<any> {
         this.clear_data();
@@ -320,16 +204,9 @@ export class UserInfo extends RootElement {
         if (pPers.id === null) {
             return Promise.resolve(true);
         }
-        pPers.url = null;
+        this._pers = pPers;
         let self = this;
         let service = this.dataService;
-        try {
-            let oMap: any = {};
-            pPers.to_map(oMap);
-            let sval = JSON.stringify(oMap);
-            this.sessionStore.store_value(PERSON_KEY, sval);
-            this._pers = pPers;
-        } catch (e) { }
         if (!pPers.is_super) {
             return service.find_items_array(pPers.departementids).then((dd: IDepartement[]) => {
                 self.departements = InfoRoot.check_array(dd);
@@ -360,26 +237,21 @@ export class UserInfo extends RootElement {
     public get is_super(): boolean {
         return (this.person !== null) ? this.person.is_super : false;
     }
-    public set is_super(b: boolean) { }
     public get is_admin(): boolean {
         return (this.person !== null) ? this.person.is_admin : false;
     }
-    public set is_admin(b: boolean) { }
     public get is_prof(): boolean {
         return (this.person !== null) ? this.person.is_prof : false;
     }
-    public set is_prof(b: boolean) { }
     public get is_etud(): boolean {
         return (this.person !== null) ? this.person.is_etud : false;
     }
-    public set is_etud(b: boolean) { }
     public get url(): string {
         return (this.person !== null) ? this.person.url : null;
     }
     public get has_url(): boolean {
         return (this.url !== null);
     }
-    public set has_url(s: boolean) { }
     public get personid(): string {
         return (this.person !== null) ? this.person.id : null;
     }
@@ -389,11 +261,9 @@ export class UserInfo extends RootElement {
     public get is_connected(): boolean {
         return (this.personid !== null);
     }
-    public set is_connected(s: boolean) { }
     public get is_notconnected(): boolean {
         return (!this.is_connected);
     }
-    public set is_notconnected(s: boolean) { }
     //
     private clear_data(): void {
         if ((this._pers !== undefined) && (this._pers !== null) && (this._pers.url !== null)) {
@@ -411,17 +281,13 @@ export class UserInfo extends RootElement {
         this._allmatieres = [];
         this._allsemestres = [];
         this._allunites = [];
-        this.sessionStore.remove_value(ANNEEID_KEY);
-        this.sessionStore.remove_value(UNITEID_KEY);
-        this.sessionStore.remove_value(MATIEREID_KEY);
-        this.sessionStore.remove_value(SEMESTREID_KEY);
-        this.sessionStore.remove_value(GROUPEID_KEY);
-        this.sessionStore.remove_value(DEPARTEMENTID_KEY);
-        this.sessionStore.remove_value(PERSON_KEY);
     }// clear_data
     private post_update_departement(): Promise<any> {
+        this.annee = null;
         this.annees = [];
+        this.groupe = null;
         this.groupes = [];
+        this.unite = null;
         this.unites = [];
         let depid = this.departementid;
         if (depid === null) {
@@ -431,8 +297,8 @@ export class UserInfo extends RootElement {
         if (pPers === null) {
             return Promise.resolve(true);
         }
+        let self = this;
         if (pPers.is_admin) {
-            let self = this;
             let service = this.dataService;
             return service.get_departement_annees(depid).then((dd) => {
                 self.annees = InfoRoot.check_array(dd);
@@ -442,6 +308,15 @@ export class UserInfo extends RootElement {
                 return service.get_departement_unites(depid);
             }).then((uu) => {
                 self.unites = uu;
+                if (self.annees.length > 0) {
+                    self.annee = self.annees[0];
+                }
+                if (self.unites.length > 0) {
+                    self.unite = self.unites[0];
+                }
+                if (self.groupes.length > 0) {
+                    self.groupe = self.groupes[0];
+                }
                 return true;
             });
         } else {
@@ -466,10 +341,20 @@ export class UserInfo extends RootElement {
                     }
                 }//x
             }
+            if (self.annees.length > 0) {
+                self.annee = self.annees[0];
+            }
+            if (self.unites.length > 0) {
+                self.unite = self.unites[0];
+            }
+            if (self.groupes.length > 0) {
+                self.groupe = self.groupes[0];
+            }
             return Promise.resolve(true);
         }
     }// post_update_departement
     private post_update_annee(): Promise<any> {
+        this.semestre = null;
         this.semestres = [];
         let anneeid = this.anneeid;
         if (anneeid === null) {
@@ -483,6 +368,9 @@ export class UserInfo extends RootElement {
         if (pPers.is_admin) {
             return this.dataService.get_annee_semestres(anneeid).then((dd) => {
                 self.semestres = InfoRoot.check_array(dd);
+                if (self.semestres.length > 0) {
+                    self.semestre = self.semestres[0];
+                }
                 return true;
             });
         } else if (this._allsemestres !== null) {
@@ -491,10 +379,14 @@ export class UserInfo extends RootElement {
                     this.semestres.push(x);
                 }
             }//x
+            if (this.semestres.length > 0) {
+                this.semestre = this.semestres[0];
+            }
             return Promise.resolve(true);
         }
     }// post_change_annee
     private post_update_unite(): Promise<any> {
+        this.matiere = null;
         this.matieres = [];
         let uniteid = this.uniteid;
         if (uniteid === null) {
@@ -508,6 +400,9 @@ export class UserInfo extends RootElement {
         if (pPers.is_admin) {
             return this.dataService.get_unite_matieres(uniteid).then((dd) => {
                 self.matieres = InfoRoot.check_array(dd);
+                if (self.matieres.length > 0) {
+                    self.matiere = self.matieres[0];
+                }
                 return true;
             });
         } else if (this._allmatieres !== null) {
@@ -516,6 +411,9 @@ export class UserInfo extends RootElement {
                     this.matieres.push(x);
                 }
             }//x
+            if (this.matieres.length > 0) {
+                this.matiere = this.matieres[0];
+            }
             return Promise.resolve(true);
         }
     }// post_change_unite
