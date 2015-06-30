@@ -15,7 +15,7 @@ export class DesignDatabase extends RootDatabase implements IDesignDatabaseManag
     //
     public check_admin(): Promise<any> {
         let username: string = SUPER_USERNAME;
-        let id: string = PERSON_PREFIX + '-' + username.trim().toUpperCase();
+        let id: string = PERSON_PREFIX + '-' + username.trim().toLowerCase();
         let xdb: any = null;
         return this.db.then((dx) => {
             xdb = dx;

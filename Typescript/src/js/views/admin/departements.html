@@ -1,0 +1,28 @@
+<template>
+	<div class="container" if.bind="isConnected">
+		<connect-bar info.bind="userInfo"></connect-bar>
+		<table>
+			<tbody>
+				<tr>
+					<td style="text-align:center">
+						<h2>${title}</h2>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:center">
+						<h3 show.bind="hasErrorMessage" class="text-danger">${errorMessage}</h3>
+		<h3 show.bind="hasInfoMessage" class="text-success">${infoMessage}</h3>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:center">
+						<elements-bar></elements-bar>
+					</td>
+					<td>
+						<siglename-bar></siglename-bar>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</template>
