@@ -17,6 +17,12 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
     constructor(userinfo: userinf.UserInfo) {
         super(userinfo);
     }// constructor
+    public activate(params?: any, config?: any, instruction?: any): any {
+        let self = this;
+        return super.activate(params, config, instruction).then((r) => {
+            return self.fill_persons();
+        })
+    }// activate
     //
     protected create_person(): P {
         return null;
@@ -140,21 +146,25 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
             return self.refreshAll();
         });
     }
+    protected fill_persons(): Promise<any> {
+        this.currentPersons = [];
+        let id = this.departementid;
+        this.personModel.departementid = id;
+        if (id === null) {
+            this.persons = [];
+            return Promise.resolve(true);
+        } else {
+            let self = this;
+            return this.dataService.get_all_items(this.personModel).then((pp: P[]) => {
+                self.persons = ((pp !== undefined) && (pp !== null)) ? pp : [];
+                return true;
+            })
+        }
+    }
     public post_change_departement(): Promise<any> {
         let self = this;
         return super.post_change_departement().then((r) => {
-            self.currentPersons = [];
-            self.persons = [];
-            let id = self.departementid;
-            self.personModel.departementid = id;
-            if (id === null) {
-                return [];
-            } else {
-                return self.dataService.get_all_items(self.personModel);
-            }
-        }).then((pp: P[]) => {
-            self.persons = ((pp !== undefined) && (pp !== null)) ? pp : [];
-            return true;
+            return self.fill_persons();
         }).then((x) => {
             self.modelItem.departementid = self.departementid;
             self.modelItem.anneeid = self.anneeid;

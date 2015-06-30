@@ -179,6 +179,7 @@ export class UserInfo extends RootElement {
             }
         }).then((px: IPerson) => {
             if (px !== null) {
+                self.person = px;
                 self.departements = data.departements;
                 self._allannees = data.annees;
                 self._allunites = data.unites;

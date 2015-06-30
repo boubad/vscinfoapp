@@ -7,7 +7,7 @@ import * as LogManager from 'aurelia-logging';
 //
 import {InfoElement} from '../utils/infoelement';
 //
-import {INFO_MESSAGE,INFO_MESSAGE_CHANNEL, ERROR_MESSAGE} from '../utils/infoconstants';
+import {INFO_MESSAGE, INFO_MESSAGE_CHANNEL, ERROR_MESSAGE} from '../utils/infoconstants';
 //
 import {IBaseItem, IDataService, IPerson, IUIManager,
 IElementDesc, IObjectStore, ILoginInfo, IInfoMessage} from 'infodata';
@@ -18,17 +18,19 @@ import {DataService} from '../data/services/dataservice';
 import {InfoMessage} from '../utils/infomessage';
 //
 export class RootElement extends InfoElement {
-	private _uiManager: UIManager = null;
-	private _sessionStore: IObjectStore = null;
-	private _localStore: IObjectStore = null;
-	private _dataService: IDataService = null;
-	private _eventAggregator: evtagg.EventAggregator = null;
-	private _logger: LogManager.Logger = null;
-	private _dispose_func: () => any = null;
-	protected _inMessage: boolean = false;
+	private _uiManager: UIManager;
+	private _sessionStore: IObjectStore;
+	private _localStore: IObjectStore;
+	private _dataService: IDataService;
+	private _eventAggregator: evtagg.EventAggregator;
+	private _logger: LogManager.Logger;
+	private _dispose_func: () => any;
+	protected _inMessage: boolean;
 	//
 	constructor() {
 		super();
+		this._dispose_func = null;
+		this._inMessage = false;
     }// constructor
 	protected get_logger_name(): string {
 		return 'RootElement';
@@ -50,34 +52,34 @@ export class RootElement extends InfoElement {
 	}
 	//
 	public get uiManager(): IUIManager {
-		if (this._uiManager === null) {
+		if ((this._uiManager === undefined) || (this._uiManager === null)) {
 			this._uiManager = this.get_uimanager();
-			if (this._uiManager === null) {
+			if ((this._uiManager === undefined) || (this._uiManager === null)) {
 				this._uiManager = new UIManager();
 			}
 		}
 		return this._uiManager;
 	}
 	public get sessionStore(): IObjectStore {
-		if (this._sessionStore === null) {
+		if ((this.sessionStore === undefined) || (this._sessionStore === null)) {
 			this._sessionStore = this.get_sessionstore();
-			if (this._sessionStore === null) {
+			if ((this.sessionStore === undefined) || (this._sessionStore === null)) {
 				this._sessionStore = new SessionStore();
 			}
 		}
 		return this._sessionStore;
 	}
 	public get localStore(): IObjectStore {
-		if (this._localStore === null) {
+		if ((this._localStore === undefined) || (this._localStore === null)) {
 			this._localStore = this.get_localstore();
-			if (this._localStore === null) {
+			if ((this._localStore === undefined) || (this._localStore === null)) {
 				this._localStore = new LocalStore();
 			}
 		}
 		return this._localStore;
 	}
 	public get eventAggregator(): evtagg.EventAggregator {
-		if (this._eventAggregator === null) {
+		if ((this._eventAggregator === undefined) || (this._eventAggregator === null)) {
 			this._eventAggregator = this.get_event_aggregator();
 			if (this._eventAggregator === undefined) {
 				this._eventAggregator = null;
@@ -86,23 +88,26 @@ export class RootElement extends InfoElement {
 		return this._eventAggregator;
 	}
 	public get dataService(): IDataService {
-		if (this._dataService === null) {
+		if ((this._dataService === undefined) || (this._dataService === null)) {
 			this._dataService = this.get_dataservice();
-			if (this._dataService === null) {
+			if ((this._dataService === undefined) || (this._dataService === null)) {
 				this._dataService = new DataService();
 			}
 		}
 		return this._dataService;
 	}
 	public get is_in_message(): boolean {
+		if ((this._inMessage === undefined) || (this._inMessage === null)) {
+			this._inMessage = false;
+		}
 		return this._inMessage;
 	}
 	protected perform_attach(): any {
 		let self = this;
-		if ((this.eventAggregator !== null) && (this._dispose_func === null)) {
+		if ((this.eventAggregator !== null) && ((this._dispose_func === undefined) || (this._dispose_func === null))) {
 			this._dispose_func = this.eventAggregator.subscribe(INFO_MESSAGE_CHANNEL, (msg: IInfoMessage) => {
 				if ((msg.source !== undefined) && (msg.source !== self)) {
-					if (!self._inMessage) {
+					if (!self.is_in_message) {
 						self._inMessage = true;
 						try {
 							self.message_received(msg);
@@ -117,7 +122,7 @@ export class RootElement extends InfoElement {
 		}
 	}// perform_attach
 	protected perform_detach(): void {
-		if (this._dispose_func !== null) {
+		if ((this._dispose_func !== undefined) && (this._dispose_func !== null)) {
 			this._dispose_func();
 			this._dispose_func = null;
 		}
@@ -133,7 +138,7 @@ export class RootElement extends InfoElement {
 	}
 	//
 	protected get logger(): LogManager.Logger {
-		if (this._logger === null) {
+		if ((this._logger === undefined) || (this._logger === null)) {
 			this._logger = LogManager.getLogger(this.get_logger_name());
 		}
 		return this._logger;
@@ -158,7 +163,7 @@ export class RootElement extends InfoElement {
 		return Promise.resolve(true);
 	}// message_received
 	public retrieve_one_avatar(item: IBaseItem): Promise<IBaseItem> {
-		if ((item === null) || (this.dataService === null) || (this.uiManager === null)) {
+		if ((item === undefined) || (item === null) || (this.dataService === null) || (this.uiManager === null)) {
 			return Promise.resolve(item);
 		}
 		if (item.url !== null) {

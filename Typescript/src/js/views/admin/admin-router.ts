@@ -34,11 +34,11 @@ export class AdminRouter extends BaseView {
     public configureRouter(config, router: mrouter.Router) {
         config.map([
             { route: ['', 'welcome'], moduleId: HOME, nav: true, title: 'Accueil' },
-            { route: 'etuds', moduleId: ETUDIANTS, nav: true, title: 'Etudiants' },
             { route: 'etudaff', moduleId: ETUDAFFECTATIONS, nav: true, title: 'Aff. Etuds.' },
             { route: 'profaff', moduleId: PROFAFFECTATIONS, nav: true, title: 'Aff. Enseign.' },
             { route: 'semestres', moduleId: SEMESTRES, nav: true, title: 'Semestres' },
             { route: 'annees', moduleId: ANNEES, nav: true, title: 'Années' },
+            { route: 'etuds', moduleId: ETUDIANTS, nav: true, title: 'Etudiants' },
             { route: 'profs', moduleId: ENSEIGNANTS, nav: true, title: 'Enseignants' },
             { route: 'groupes', moduleId: GROUPES, nav: true, title: 'Groupes' },
             { route: 'matieres', moduleId: MATIERES, nav: true, title: 'Matières' },

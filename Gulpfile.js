@@ -59,7 +59,7 @@ gulp.task("copy-files", ['copy-images', 'copy-scripts', 'copy-styles', 'copy-htm
     return gulp.src('./Typescript/src/**/*.ico', { base: './Typescript/src' })
         .pipe(gulp.dest('wwwroot'));
 });
-gulp.task("all", ['clean','build', 'copy-files'], function () {
+gulp.task("all", ['build', 'copy-files'], function () {
     return gulp.src('./Typescript/src/**/*.ico', { base: './Typescript/src' })
         .pipe(gulp.dest('wwwroot'));
 });
