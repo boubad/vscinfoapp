@@ -5,6 +5,7 @@ temp
 Typescript/**/*.js
 # main init file
 !Typescript/src/main-init.js
+# special files
 .DS_STORE
 .c9
 .zedstate
