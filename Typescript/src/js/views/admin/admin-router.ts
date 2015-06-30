@@ -19,6 +19,8 @@ const MATIERES: string = './matieres';
 const OPERATORS: string = './administrators';
 const ENSEIGNANTS: string = './enseignants';
 const ETUDIANTS: string = './etudiants';
+const PROFAFFECTATIONS:string = './profaffectations';
+const ETUDAFFECTATIONS:string = './etudaffectations';
 //
 @autoinject
 export class AdminRouter extends BaseView {
@@ -31,8 +33,10 @@ export class AdminRouter extends BaseView {
     //
     public configureRouter(config, router: mrouter.Router) {
         config.map([
-            { route: ['', 'home'], moduleId: HOME, nav: true, title: 'Accueil' },
+            { route: ['', 'welcome'], moduleId: HOME, nav: true, title: 'Accueil' },
             { route: 'etuds', moduleId: ETUDIANTS, nav: true, title: 'Etudiants' },
+            { route: 'etudaff', moduleId: ETUDAFFECTATIONS, nav: true, title: 'Aff. Etuds.' },
+            { route: 'profaff', moduleId: PROFAFFECTATIONS, nav: true, title: 'Aff. Enseign.' },
             { route: 'semestres', moduleId: SEMESTRES, nav: true, title: 'Semestres' },
             { route: 'annees', moduleId: ANNEES, nav: true, title: 'Années' },
             { route: 'profs', moduleId: ENSEIGNANTS, nav: true, title: 'Enseignants' },

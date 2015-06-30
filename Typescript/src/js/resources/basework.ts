@@ -149,7 +149,7 @@ export class BaseWork extends BaseBar {
 		return (this.parent !== null) ? this.parent.cannotCancel : true;
 	}
 	public get cannotSave(): boolean {
-		return (this.parent !== null) ? this.parent.cannotSave : true;
+		return ((this.parent !== null) && (this.parent.cannotSave !== undefined)) ? this.parent.cannotSave : true;
 	}
 	public get cannotRemove(): boolean {
 		return (this.parent !== null) ? this.parent.cannotRemove : true;

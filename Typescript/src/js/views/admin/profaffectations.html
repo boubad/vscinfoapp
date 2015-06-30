@@ -1,0 +1,100 @@
+<template>
+  <div class="container" if.bind="isConnected">
+    <connect-bar info.bind="userInfo"></connect-bar>
+    <table>
+      <tbody>
+        <tr>
+          <td style="text-align:center">
+            <h2>${title}</h2>
+          </td>
+        </tr
+        <tr>
+          <td style="text-align:center">
+            <h3 show.bind="hasErrorMessage" class="text-danger">${errorMessage}</h3>
+            <h3 show.bind="hasInfoMessage" class="text-success">${infoMessage}</h3>
+          </td
+        </tr>
+        <tr>
+          <td style="text-align:center">
+            <work-bar></work-bar>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center">
+            <div class="form-group">
+              <label class="form-label" for="genre">Genre</label>
+              <select id="genre" value.bind="genre">
+                <option>[Genre?]</option>
+                <option value='TP'>Travaux Pratiques</option>
+                <option value='TD'>Travaux Dirigés</option>
+                <option value='COURS'>Cours Magistral</option>
+                <option value='AUTRE'>Autre Genre</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <label class="form-label" for="persons">Enseignants</label>
+                      <select id="persons" multiple value.bind="currentPersons" size="16">
+                        <option repeat.for="pers of persons" model.bind="pers">${pers.text}</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td>
+                    <div >
+                      <div>
+                        <button type="button" click.delegate="refreshAll()" class="btn btn-primary">Rafraîchir</button>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="startDate">Date de début</label>
+                        <input class="form-control" type="date" id="startDate" value.bind="allStartDate" min.bind="minDate" max.bind="maxDate" required></input>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="endDate">Date de fin</label>
+                        <input class="form-control" type="date" id="endDate" value.bind="allEndDate" min.bind="minDate" max.bind="maxDate" required></input>
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" click.delegate="save()" class="btn btn-primary">Ajouter</button>
+                        <button type="button" disabled.bind="cannotRemove" click.delegate="remove()" class="btn btn-primary">Supprimer</button>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <ul class="pagination" if.bind="hasPages">
+                        <li>
+                          <a href="#" click.delegate="firstPage()" show.bind="canPrevPage">Début</a>
+                        </li>
+                        <li>
+                          <a href="#" click.delegate="prevPage()" show.bind="canPrevPage">Préc.</a>
+                        </li>
+                        <li>
+                          <a href="#" click.delegate="nextPage()" show.bind="canNextPage">Suivant</a>
+                        </li>
+                        <li>
+                          <a href="#" click.delegate="lastPage()" show.bind="canNextPage">Fin</a>
+                        </li>
+                      </ul>
+                      <div class="form-group">
+                        <label class="form-label" for="affectations">Affectations</label>
+                        <select id="affectations" multiple value.bind="currentAffectations" size="16">
+                          <option repeat.for="elem of items" model.bind="elem">${elem.text}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

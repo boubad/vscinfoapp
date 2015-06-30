@@ -37,13 +37,22 @@ export class Semestres extends IntervalViewModel<Semestre> {
 		return (this.anneeid !== null);
 	}
 	protected is_storeable(): boolean {
+    if (this.annee === undefined){
+      return false;
+    }
 		let pAn = this.annee;
 		if ((pAn === null) || (!super.is_storeable())) {
 			return false;
 		}
-		if (!pAn.is_storeable()) {
-			return false;
-		}
+    if ((pAn.id === undefined) || (pAn.id === null)){
+      return false;
+    }
+    if ((pAn.startDate === undefined) || (pAn.startDate === null)){
+      return false;
+    }
+    if ((pAn.endDate === undefined) || (pAn.endDate === null)){
+      return false;
+    }
 		let t01 = Date.parse(pAn.startDate.toString());
 		let t02 = Date.parse(pAn.endDate.toString());
 		let t1 = Date.parse(this.currentItem.startDate.toString());
