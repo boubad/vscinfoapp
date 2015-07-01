@@ -5,11 +5,13 @@ import {InfoRoot} from '../utils/inforoot';
 import {BaseEditViewModel} from './baseeditmodel';
 import {IAffectation, IDepartementPerson, IUIManager} from 'infodata';
 //
-export class AffectationViewModel<T extends IAffectation, P extends IDepartementPerson> extends BaseEditViewModel<T> {
+export class AffectationViewModel<T extends IAffectation, P extends IDepartementPerson>
+ extends BaseEditViewModel<T> {
     //
     public persons: P[] = [];
     public currentPersons: P[] = [];
     public currentAffectations: T[] = [];
+    //
     private _person_model: P = null;
     protected _start: Date = null;
     protected _end: Date = null;
@@ -119,7 +121,7 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
         return this._person_model;
     }
 
-    public post_change_groupe(): Promise<any> {
+    protected post_change_groupe(): Promise<any> {
         let self = this;
         return super.post_change_groupe().then((r) => {
             self.modelItem.departementid = self.departementid;
@@ -129,7 +131,7 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
             return self.refreshAll();
         });
     }
-    public post_change_semestre(): Promise<any> {
+    protected post_change_semestre(): Promise<any> {
         let self = this;
         return super.post_change_semestre().then((r) => {
             self.modelItem.departementid = self.departementid;
@@ -161,7 +163,7 @@ export class AffectationViewModel<T extends IAffectation, P extends IDepartement
             })
         }
     }
-    public post_change_departement(): Promise<any> {
+    protected post_change_departement(): Promise<any> {
         let self = this;
         return super.post_change_departement().then((r) => {
             return self.fill_persons();

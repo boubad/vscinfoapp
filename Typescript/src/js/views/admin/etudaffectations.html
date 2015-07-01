@@ -64,7 +64,7 @@
             <table>
               <tbody>
                 <tr>
-                  <td>
+                  <td style="text-align:center">
                     <div class="form-group">
                       <label class="form-label" for="persons">Etudiants</label>
                       <select id="persons" multiple value.bind="currentPersons" size="16">
@@ -72,8 +72,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
-                    <div class="col-sm-4">
+                  <td style="text-align:center">
                       <div>
                         <button type="button" click.delegate="refreshAll()" class="btn btn-primary">Rafraîchir</button>
                       </div>
@@ -89,10 +88,9 @@
                         <button type="button" disabled.bind="cannotSave" click.delegate="save()" class="btn btn-primary">Ajouter</button>
                         <button type="button" disabled.bind="cannotRemove" click.delegate="remove()" class="btn btn-primary">Supprimer</button>
                       </div>
-                    </div>
                   </td>
-                  <td>
-                    <div class="col-sm-4" if.bind="hasItems">
+                  <td style="text-align:center">
+                    <div if.bind="hasItems">
                       <ul class="pagination" if.bind="hasPages">
                         <li>
                           <a href="#" click.delegate="firstPage()" show.bind="canPrevPage">Début</a>

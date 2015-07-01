@@ -15,6 +15,12 @@ export class WorkBar extends BaseBar {
   constructor() {
     super();
   }
+  public attached(): any {
+      this.perform_attach();
+  }
+  public detached(): any {
+      this.perform_detach();
+  }
   protected get_logger_name(): string {
     return 'WorkBar';
   }

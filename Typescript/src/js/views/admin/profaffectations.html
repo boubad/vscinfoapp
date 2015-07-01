@@ -34,11 +34,11 @@
           </td>
         </tr>
         <tr>
-          <td>
+          <td if.bind="canShowForm">
             <table>
               <tbody>
                 <tr>
-                  <td>
+                  <td style="text-align:center">
                     <div class="form-group">
                       <label class="form-label" for="persons">Enseignants</label>
                       <select id="persons" multiple value.bind="currentPersons" size="16">
@@ -46,7 +46,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <td style="text-align:center">
                     <div >
                       <div>
                         <button type="button" click.delegate="refreshAll()" class="btn btn-primary">Rafraîchir</button>
@@ -65,7 +65,7 @@
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <td style="text-align:center">
                     <div>
                       <ul class="pagination" if.bind="hasPages">
                         <li>
