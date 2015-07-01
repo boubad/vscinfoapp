@@ -63,9 +63,9 @@ export class RootElement extends InfoElement {
         return this._uiManager;
     }
     public get sessionStore(): IObjectStore {
-        if ((this.sessionStore === undefined) || (this._sessionStore === null)) {
+        if ((this._sessionStore === undefined) || (this._sessionStore === null)) {
             this._sessionStore = this.get_sessionstore();
-            if ((this.sessionStore === undefined) || (this._sessionStore === null)) {
+            if ((this._sessionStore === undefined) || (this._sessionStore === null)) {
                 this._sessionStore = new SessionStore();
             }
         }

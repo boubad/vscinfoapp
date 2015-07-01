@@ -50,6 +50,6 @@ export class AdminRouter extends BaseView {
     }
     public canActivate(params?: any, config?: any, instruction?: any): any {
         let px = this.person;
-        return (px !== null) && (px.id !== null) && px.is_admin;
+        return (px !== null) && (px.id !== null);
     }// activate
 }

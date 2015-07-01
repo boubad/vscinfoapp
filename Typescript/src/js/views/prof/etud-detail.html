@@ -1,0 +1,118 @@
+<template>
+  <div class="container" if.bind="isConnected">
+    <connect-bar info.bind="userInfo"></connect-bar>
+    <div class="row">
+      <div class="col-sm-1">&nbsp;</div>
+      <div class="col-sm-1" if.bind="hasEtudiantUrl">
+        <img src.bind="etudiantUrl" height="128">
+        </img>
+      </div>
+      <div class="col-sm-1">&nbsp;</div>
+      <div class="col-sm-7">
+        <h2>${fullname}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1">&nbsp;</div>
+      <div class="col-sm-2">
+        <div class="form-group">
+          <label class="form-label" for="username">Identifiant</label>
+          <input class="form-control" type="text" id="username" value.bind="username" placeholder="Identifiant" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lastname">Nom de famille</label>
+          <input class="form-control" type="text" id="lastname" value.bind="lastname" placeholder="Nom de famille" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="firstname">Prénom(s)</label>
+          <input class="form-control" type="text" id="firstname" value.bind="firstname" placeholder="Prénom(s)" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Courriel</label>
+          <input class="form-control" type="email" id="email" value.bind="email" placeholder="Courriel" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">Téléphone</label>
+          <input class="form-control" type="tel" id="phone" value.bind="phone" placeholder="Téléphone" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="description">Description</label>
+          <textarea class="form-control" id="description" readonly.bind="isReadOnly" value.bind="description" readonly></textarea>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group">
+          <label class="form-label">Sexe</label>
+          <label class="radio-inline">
+            <input type="radio" name="optsexe" value.bind="sexe" readonly>MASCULIN</label>
+          <label class="radio-inline">
+            <input type="radio" name="optsexe" value.bind="sexe" readonly>FEMININ</label>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="birthDate">Date de naissance</label>
+          <input class="form-control" type="date" id="birthDate" value.bind="birthDate" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="dossier">Dossier</label>
+          <input class="form-control" type="text" id="dossier" value.bind="dossier" placeholder="Dossier" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="etablissement">Etablissement</label>
+          <input class="form-control" type="text" id="etablissement" value.bind="etablissement" placeholder="Etablissement" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="ville">Ville</label>
+          <input class="form-control" type="text" id="ville" value.bind="ville" placeholder="Ville" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="seriebac">Série bac</label>
+          <input class="form-control" type="text" id="seriebac" value.bind="serieBac" placeholder="Série bac" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="optionbac">Option bac</label>
+          <input class="form-control" type="text" id="optionbac" value.bind="optionBac" placeholder="Option bac" readonly></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="mentionbac">Mention bac</label>
+          <input class="form-control" type="text" id="mentionbac" value.bind="mentionBac" placeholder="Mention bac"></input>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="sup">Etudes supérieures</label>
+          <input class="form-control" type="text" id="sup" value.bind="etudesSuperieures" placeholder="Etudes supérieures" readonly></input>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <table id="link-table">
+          <tr>
+            <th>Date</th>
+            <th>Genre</th>
+            <th>Matiere</th>
+            <th>Devoir</th>
+            <th>Observations</th>
+            <th>note</th>
+          </tr>
+          <tr repeat.for="evt of evts">
+            <td>
+              ${evt.dateString}
+            </td>
+            <td>
+              ${evt.genre}
+            </td>
+            <td>
+              ${evt.matiereSigle}
+            </td>
+            <td>
+              ${evt.groupeEventName}
+            </td>
+            <td>
+              ${evt.description}
+            </td>
+            <td>
+              ${evt.note}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>

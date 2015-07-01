@@ -44,6 +44,7 @@ export class BaseConsultViewModel<T extends IBaseItem> extends WorkViewModel {
     public get canShowForm(): boolean {
         return this.is_refresh();
     }
+    public set canShowForm(s:boolean){}
     public activate(params?: any, config?: any, instruction?: any): any {
         this.perform_activate();
         let self = this;
