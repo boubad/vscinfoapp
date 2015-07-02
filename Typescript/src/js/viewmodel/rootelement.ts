@@ -104,24 +104,27 @@ export class RootElement extends InfoElement {
         }
         return this._inMessage;
     }
+    protected perform_subscribe(): any {
+      let self = this;
+      if ((this.eventAggregator !== null) && ((this._dispose_func === undefined) || (this._dispose_func === null))) {
+          this._dispose_func = this.eventAggregator.subscribe(INFO_MESSAGE_CHANNEL, (msg: IInfoMessage) => {
+              if ((msg.source !== undefined) && (msg.source !== self)) {
+                  if (!self.is_in_message) {
+                      self._inMessage = true;
+                      try {
+                          self.message_received(msg);
+                      } catch (e) {
+                          let ss = ((e !== undefined) && (e !== null)) ? e.toString() : 'Error';
+                          self.error(ss);
+                      }
+                      self._inMessage = false;
+                  }
+              }
+          });
+      }
+    }// perform_subscribe
     protected perform_attach(): any {
-        let self = this;
-        if ((this.eventAggregator !== null) && ((this._dispose_func === undefined) || (this._dispose_func === null))) {
-            this._dispose_func = this.eventAggregator.subscribe(INFO_MESSAGE_CHANNEL, (msg: IInfoMessage) => {
-                if ((msg.source !== undefined) && (msg.source !== self)) {
-                    if (!self.is_in_message) {
-                        self._inMessage = true;
-                        try {
-                            self.message_received(msg);
-                        } catch (e) {
-                            let ss = ((e !== undefined) && (e !== null)) ? e.toString() : 'Error';
-                            self.error(ss);
-                        }
-                        self._inMessage = false;
-                    }
-                }
-            });
-        }
+        this.perform_subscribe();
     }// perform_attach
     protected perform_detach(): void {
         if ((this._dispose_func !== undefined) && (this._dispose_func !== null)) {

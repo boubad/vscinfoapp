@@ -4,14 +4,14 @@
 import {autoinject} from 'aurelia-framework';
 //
 import * as userinf from '../../viewmodel/userinfo';
-import {BaseView} from '../../viewmodel/baseview';
+import {BaseDetail} from './basedetail';
 import {IEtudiantPerson,
 IEtudEvent, IUIManager, IBaseItem} from 'infodata';
 import {EtudiantPerson} from '../../data/domain/etudperson';
 import {InfoRoot} from '../../utils/inforoot';
 //
 @autoinject
-export class EtudDetail extends BaseView {
+export class EtudDetail extends BaseDetail {
   //
   public currentPerson: IEtudiantPerson = null;
   public evts: IEtudEvent[] = [];
