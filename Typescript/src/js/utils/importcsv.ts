@@ -4,18 +4,23 @@
 import {InfoElement} from './infoelement';
 import { ITransformArray, IBaseItem, IItemFactory} from 'infodata';
 import {ItemFactory} from '../data/domain/itemfactory';
-import * as Papa from 'papaparse';
+import * as xparse from 'papaparse';
+//
+declare var Papa:any;
 //
 export class CSVImporter extends InfoElement implements ITransformArray {
     //
     private _factory: IItemFactory;
     //
-    constructor(stype?:string) {
+    constructor() {
         super();
     }
     public transform_map(oMap: any): IBaseItem {
         if ((oMap === undefined) || (oMap === null)) {
             return null;
+        }
+        if ((this._factory === undefined)|| (this._factory === null)){
+          this._factory = new ItemFactory();
         }
         return this._factory.create(oMap);
     }// transform_map

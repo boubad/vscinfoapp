@@ -2,7 +2,6 @@
 	<div class="container" if.bind="isConnected">
 		<connect-bar info.bind="userInfo"></connect-bar>
 		<table>
-			<tbody>
 				<tr>
 					<td style="text-align:center">
 						<h2>${title}</h2>
@@ -19,23 +18,30 @@
 						<div class="form-group">
 							<label class="form-label" for="departements">Département</label>
 							<select id="departements" value.bind="departement">
-								<option>Département...</option>
+								<option>Dép?...</option>
 								<option repeat.for="depelem of departements" model.bind="depelem">${depelem.text}</option>
 							</select>
 						</div>
 					</td>
 				</tr>
 				<tr if:bind="canShowForm">
+					<td>
+						<div class="form-group">
+							<label class="form-label" for="fileToImport">Import CSV...</label>
+							<input type="file" id="fileToImport"  change.delegate="importFileChanged($event)"/>
+						</div>
+					</td>
+				</tr>
+				<tr if:bind="canShowForm">
 					<td style="text-align:center">
-						<elements-bar></elements-bar>
+						<elements-bar if:bind="canShowForm"></elements-bar>
 					</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>
-						<etudiant-bar ></etudiant-bar>
+						<etudiant-bar if:bind="canShowForm" ></etudiant-bar>
 					</td>
 				</tr>
-			</tbody>
 		</table>
 	</div>
 </template>

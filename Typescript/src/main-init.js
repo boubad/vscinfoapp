@@ -11,7 +11,7 @@ require.config({
 		resources: baseUrl + 'resources',
 		bluebird: baseUrl + "js/lib/bluebird/bluebird",
 		pouchdb: baseUrl + "js/lib/pouchdb/pouchdb.min",
-		papaparse: baseUrl + "js/lib/papaparse/papaparse.min"
+		papaparse: baseUrl + "js/lib/papaparse/papaparse"
 	},
 	shim: {
 		"pouchdb": {
