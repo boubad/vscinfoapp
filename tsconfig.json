@@ -72,6 +72,7 @@
         "./Typescript/src/js/resources/work-bar.ts",
         "./Typescript/src/js/utils/elementdesc.ts",
         "./Typescript/src/js/utils/filedesc.ts",
+        "./Typescript/src/js/utils/importcsv.ts",
         "./Typescript/src/js/utils/infoconstants.ts",
         "./Typescript/src/js/utils/infoelement.ts",
         "./Typescript/src/js/utils/infomessage.ts",
@@ -148,6 +149,7 @@
         "./Typescript/typings/core-js/core-js.d.ts",
         "./Typescript/typings/es6.d.ts",
         "./Typescript/typings/nprogress.d.ts",
+        "./Typescript/typings/papaparse/papaparse.d.ts",
         "./Typescript/typings/pouchdb/pouchdb.d.ts",
         "./Typescript/typings/reflect-metadata.d.ts"
     ]

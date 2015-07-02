@@ -314,4 +314,8 @@ declare module 'infodata' {
         error?: string;
         tag?: string;
     }// interface IInfoMessage
+    export interface ITransformArray extends IInfoElement {
+      transform_map: (oMap:any)=>IBaseItem;
+      transform_file: (file:File,stype:string) => Promise<IBaseItem[]>;
+    }
 }// module infodata

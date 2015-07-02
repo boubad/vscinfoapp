@@ -10,11 +10,15 @@ require.config({
 		js: baseUrl + "js",
 		resources: baseUrl + 'resources',
 		bluebird: baseUrl + "js/lib/bluebird/bluebird",
-		pouchdb: baseUrl + "js/lib/pouchdb/pouchdb.min"
+		pouchdb: baseUrl + "js/lib/pouchdb/pouchdb.min",
+		papaparse: baseUrl + "js/lib/papaparse/papaparse.min"
 	},
 	shim: {
 		"pouchdb": {
 			exports: "PouchDB"
+		},
+		"papaparse": {
+			exports: "Papa"
 		}
 	}
 });
