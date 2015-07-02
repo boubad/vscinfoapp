@@ -27,6 +27,10 @@ export const ERROR_MESSAGE: string = 'errormsg';
 export const MESSAGE_LOGIN: string = 'login';
 export const MESSAGE_LOGOUT: string = 'logout';
 export const MESSAGE_DOMAIN: string = 'domain';
+export const MESSAGE_NAVIGATE: string = 'navigate';
+export const HOME_ROUTE:string = 'welcome';
+export const ADMIN_ROUTE:string = 'admin';
+export const PROF_ROUTE:string = 'prof';
 //
 export const PERSON_KEY: string = 'person';
 export const ETUDIANTPERSON_KEY: string = 'etudperson';

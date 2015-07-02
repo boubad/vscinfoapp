@@ -49,7 +49,6 @@ export class AdminRouter extends BaseView {
         this.router = router;
     }
     public canActivate(params?: any, config?: any, instruction?: any): any {
-        let px = this.person;
-        return (px !== null) && (px.id !== null);
+      return (this.isConnected && this.isAdmin);
     }// activate
 }

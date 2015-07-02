@@ -15,9 +15,10 @@ import {LocalStore} from '../utils/localstore';
 import {DataService} from '../data/services/dataservice';
 import {InfoMessage} from '../utils/infomessage';
 //
-import {DEPARTEMENT_TYPE, ANNEE_TYPE, SEMESTRE_TYPE, UNITE_TYPE, MATIERE_TYPE, GROUPE_TYPE,
+import {DEPARTEMENT_TYPE, ANNEE_TYPE, SEMESTRE_TYPE,
+   UNITE_TYPE, MATIERE_TYPE, GROUPE_TYPE,
 MESSAGE_DOMAIN, INFO_MESSAGE, INFO_MESSAGE_CHANNEL,
-ERROR_MESSAGE, MESSAGE_LOGOUT} from '../utils/infoconstants';
+ERROR_MESSAGE, MESSAGE_LOGOUT, MESSAGE_NAVIGATE} from '../utils/infoconstants';
 //
 export class RootElement extends InfoElement {
     private _uiManager: UIManager;
@@ -174,6 +175,13 @@ export class RootElement extends InfoElement {
         p.value = mval;
         this.publish_message(p);
     }
+    protected publish_navigation_message(xroute: string): any {
+        let p = new InfoMessage();
+        p.type = MESSAGE_NAVIGATE;
+        p.categ = xroute;
+        p.value = xroute;
+        this.publish_message(p);
+    }
     protected message_received(message: IInfoMessage): Promise<any> {
         if (message.type == MESSAGE_DOMAIN) {
             let s = message.categ;
@@ -194,9 +202,17 @@ export class RootElement extends InfoElement {
             }
         } else if (message.type == MESSAGE_LOGOUT) {
             return this.perform_logout();
+        } else if (message.type == MESSAGE_NAVIGATE){
+          let s = message.categ;
+          if ((s !== undefined) && (s !== null)) {
+             return this.perform_navigate(s);
+          }
         }
         return Promise.resolve(true);
     }// message_received
+    protected perform_navigate(xroute:string) : Promise<any>{
+        return Promise.resolve(true);
+    }
     protected perform_logout(): Promise<any> {
         return Promise.resolve(true);
     }

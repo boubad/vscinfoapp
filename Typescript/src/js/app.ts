@@ -7,8 +7,8 @@ import * as userinf from './viewmodel/userinfo';
 
 //
 import {RootView} from './viewmodel/rootview';
+import {HOME_ROUTE, ADMIN_ROUTE, PROF_ROUTE} from './utils/infoconstants';
 //
-const HOME_ROUTE:string = 'welcome';
 const HOME: string = './views/welcome';
 const SYNCHRO: string = './views/common/synchro-view';
 const ADMIN_PAGE: string = './views/admin/admin-router';
@@ -17,7 +17,7 @@ const DEVOIRS: string = "./views/prof/prof-router";
 //
 @autoinject
 export class App extends RootView {
-    public router:aurouter.Router;
+    public router: aurouter.Router;
     //
     constructor(userinfo: userinf.UserInfo) {
         super(userinfo);
@@ -28,8 +28,8 @@ export class App extends RootView {
         config.map([
             { route: ['', HOME_ROUTE], moduleId: HOME, nav: true, title: 'Accueil' },
             { route: 'profil', moduleId: PROFIL, nav: true, title: 'Profil' },
-            { route: 'prof', moduleId: DEVOIRS, nav: true, title: 'Devoirs' },
-            { route: 'admin', moduleId: ADMIN_PAGE, nav: true, title: 'Admin' },
+            { route: PROF_ROUTE, moduleId: DEVOIRS, nav: true, title: 'Devoirs' },
+            { route: ADMIN_ROUTE, moduleId: ADMIN_PAGE, nav: true, title: 'Admin' },
             { route: 'synchro', moduleId: SYNCHRO, nav: true, title: 'Sync' },
             { route: 'etud/:id/detail', moduleId: './views/prof/etud-detail', nav: false },
             { route: 'groupeevents', moduleId: './views/prof/groupeevents', nav: false },
@@ -39,8 +39,15 @@ export class App extends RootView {
         this.router = router;
     }
     protected perform_logout(): Promise<any> {
-        if ((this.router !== undefined) && (this.router !== null)){
-           this.router.navigate(HOME_ROUTE,{});
+        if ((this.router !== undefined) && (this.router !== null)) {
+            this.router.navigate(HOME_ROUTE, {});
+        }
+        return Promise.resolve(true);
+    }
+    protected perform_navigate(xroute: string): Promise<any> {
+        if ((this.router !== undefined) && (this.router !== null) &&
+            (xroute !== undefined) && (xroute !== null)) {
+            this.router.navigate(xroute, {});
         }
         return Promise.resolve(true);
     }

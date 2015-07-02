@@ -28,7 +28,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <td if.bind="hasAnnees">
                     <div class="form-group">
                       <label class="form-label" for="annees">Année</label>
                       <select id="annees" value.bind="annee">
@@ -37,7 +37,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <td if.bind="hasSemestres">
                     <div class="form-group">
                       <label class="form-label" for="semestres">Sem.</label>
                       <select id="semestres" value.bind="semestre">
@@ -46,7 +46,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <td if.bind="hasUnites">
                     <div class="form-group">
                       <label class="form-label" for="unites">Unité</label>
                       <select id="unites" value.bind="unite">
@@ -55,7 +55,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <td if.bind="hasMatieres">
                     <div class="form-group">
                       <label class="form-label" for="matieres">Matière</label>
                       <select id="matieres" value.bind="matiere">
@@ -64,7 +64,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <td if.bind="hasGroupes">
                     <div class="form-group">
                       <label class="form-label" for="groupes">Groupe</label>
                       <select id="groupes" value.bind="groupe">

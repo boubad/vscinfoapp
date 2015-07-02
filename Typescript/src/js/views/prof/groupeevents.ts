@@ -41,8 +41,13 @@ export class Groupeevents extends BaseEditViewModel<GroupeEvent> {
         super(userinfo);
         this.title = "Devoirs";
     }
-    public get canEdit(): boolean {
+    public get isEditable(): boolean {
         return this.isProf;
+    }
+    public set isEditable(s:boolean){}
+    public get canEdit(): boolean {
+        return (this.currentProfAffectation !== null) &&
+        (this.currentProfAffectation.personid == this.personid);
     }
     public set canEdit(s: boolean) { }
     public get startDate(): string {
@@ -652,4 +657,7 @@ export class Groupeevents extends BaseEditViewModel<GroupeEvent> {
             self.set_error(err);
         });
     }// remove
+    public canActivate(params?: any, config?: any, instruction?: any): any {
+        return (this.isConnected && this.isProf);
+    }// activate
 }// class Profgroupeevents

@@ -9,7 +9,9 @@ import {autoinject, bindable} from 'aurelia-framework';
 import {InfoMessage} from '../utils/infomessage';
 import * as userinf from '../viewmodel/userinfo';
 import {RootView} from '../viewmodel/rootview';
-import {MESSAGE_LOGIN, MESSAGE_LOGOUT} from '../utils/infoconstants';
+import {MESSAGE_LOGIN, MESSAGE_LOGOUT,ADMIN_ROUTE, PROF_ROUTE}
+ from '../utils/infoconstants';
+ import {IPerson} from 'infodata';
 //
 export class ConnectBar extends RootView {
     //
@@ -65,7 +67,15 @@ export class ConnectBar extends RootView {
                 let pPers = self.userInfo.person;
                 if ((pPers !== null) && (pPers.id !== null) && (pPers.avatarid !== null)
                     && (pPers.url === null)) {
-                    return self.retrieve_one_avatar(pPers);
+                    return self.retrieve_one_avatar(pPers).then((pp:IPerson)=>{
+                      if (pp !== null){
+                        if (pp.is_admin) {
+                          self.publish_navigation_message(ADMIN_ROUTE);
+                        } else {
+                          self.publish_navigation_message(PROF_ROUTE);
+                        }
+                      }// pp
+                    });
                 }
             });
         } else {
