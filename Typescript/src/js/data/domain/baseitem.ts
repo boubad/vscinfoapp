@@ -22,24 +22,6 @@ export class BaseItem extends ElementDesc implements IBaseItem {
         }// oMap
     }// constructor
     //
-    public check_avatar_url(service:IDataService,man:IUIManager): Promise<IBaseItem> {
-      if (this.url !== null){
-        return Promise.resolve(this);
-      }
-      let id = this.avatardocid();
-      let ava = this.avatarid;
-      if ((id === null) || (ava === null)){
-        return Promise.resolve(this);
-      }
-      let self = this;
-      return service.find_attachment(id,ava).then((blob)=>{
-        if ((blob !== undefined) && (blob !== null)){
-          self.url = man.createUrl(blob);
-        }
-        return self;
-      });
-    }// check_avatarÃ¨url
-    //
     public save(service: IDataService): Promise<IBaseItem> {
         if (this.id === null) {
             this.id = this.create_id();
@@ -109,7 +91,5 @@ export class BaseItem extends ElementDesc implements IBaseItem {
         return null;
     }
     //
-    public avatardocid(): string {
-        return this.id;
-    }
+  
 }// class IBaseItem

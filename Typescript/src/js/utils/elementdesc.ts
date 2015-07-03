@@ -1,7 +1,7 @@
 //elementdesc.ts
 //
 import {InfoElement} from './infoelement';
-import {IElementDesc} from 'infodata';
+import {IElementDesc,IDataService,IUIManager} from 'infodata';
 import {InfoRoot}  from './inforoot';
 //
 //
@@ -40,6 +40,26 @@ export class ElementDesc extends InfoElement implements IElementDesc {
             }
         }// oMap
     }// constructor
+    public avatardocid(): string {
+        return this.id;
+    }
+    public check_avatar_url(service:IDataService,man:IUIManager): Promise<ElementDesc> {
+      if (this.url !== null){
+        return Promise.resolve(this);
+      }
+      let id = this.avatardocid();
+      let ava = this.avatarid;
+      if ((id === null) || (ava === null)){
+        return Promise.resolve(this);
+      }
+      let self = this;
+      return service.find_attachment(id,ava).then((blob)=>{
+        if ((blob !== undefined) && (blob !== null)){
+          self.url = man.createUrl(blob);
+        }
+        return self;
+      });
+    }// check_avatarÃ¨url
     public get text(): string {
         return this.toString();
     }

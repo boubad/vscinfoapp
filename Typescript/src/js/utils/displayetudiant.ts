@@ -15,6 +15,7 @@ export class DisplayEtudiant extends ElementDesc implements IDisplayEtudiant {
     public lastname: string = null;
     public coefficient: number = null;
     public note: number = null;
+    public groupeSigle:string = null;
     //
     public absencesCount: number = 0;
     public retardsCount: number = 0;
@@ -26,6 +27,9 @@ export class DisplayEtudiant extends ElementDesc implements IDisplayEtudiant {
     //
     constructor() {
         super();
+    }
+    public avatardocid(): string {
+        return this.personid;
     }
     public fillEvent(p: IEtudEvent): void {
         if (this.personid == null) {
@@ -44,6 +48,7 @@ export class DisplayEtudiant extends ElementDesc implements IDisplayEtudiant {
             this._count = 0;
             this._sumdata = 0;
             this._sumcoefs = 0;
+            this.groupeSigle = p.groupeSigle;
         }
     }// fillEvent
     public get notesCount(): number {
@@ -68,7 +73,13 @@ export class DisplayEtudiant extends ElementDesc implements IDisplayEtudiant {
         }
     }
     private add_event_misc(sGenre: string): void {
-
+        if (sGenre.startsWith('ABS')) {
+            this.absencesCount = this.absencesCount + 1;
+        } else if (sGenre.startsWith('RET')) {
+            this.retardsCount = this.retardsCount + 1;
+        } else {
+            this.miscCount = this.miscCount + 1;
+        }
     }// sGenre
     private add_note(val: number, coef?: number): void {
         if ((val !== undefined) && (val !== null) && (val >= 0)) {
@@ -79,6 +90,23 @@ export class DisplayEtudiant extends ElementDesc implements IDisplayEtudiant {
             this.note = this._sumdata / this._sumcoefs;
         }// val
     }//add_note
+    public get fullname(): string {
+        return ((this.lastname !== null) && (this.firstname !== null)) ?
+            (this.lastname + ' ' + this.firstname) : null;
+    } // fullname
+    public sort_func(p1: IDisplayEtudiant, p2: IDisplayEtudiant): number {
+        let s1 = p1.fullname;
+        let s2 = p2.fullname;
+        if ((s1 !== null) && (s2 !== null)) {
+            return s1.localeCompare(s2);
+        } else if ((s1 === null) && (s2 !== null)) {
+            return 1;
+        } else if ((s1 !== null) && (s2 === null)) {
+            return -1;
+        } else {
+            return 0;
+        }
+    } // sort_func
 }// class DisplayEtudiant
 //
 export class DisplayEtudiantsArray {
@@ -100,4 +128,17 @@ export class DisplayEtudiantsArray {
             }
         }
     }// add_event
+    public get_etudiantdisplays(): IDisplayEtudiant[] {
+        let oRet: DisplayEtudiant[] = [];
+        this._data.forEach((val, key) => {
+            oRet.push(val);
+        });
+        if (oRet.length > 2) {
+            let pf = oRet[0].sort_func;
+            if ((pf !== undefined) && (pf !== null)) {
+                oRet.sort(pf);
+            }
+        }
+        return oRet;
+    }//
 }//

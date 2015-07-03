@@ -28,11 +28,13 @@ declare module 'infodata' {
         url?: string;
         selected?: boolean;
         description?: string;
+        avatardocid?: () => string;
         //
         is_storeable: () => boolean;
         to_map: (oMap: any) => void;
         toString: () => string;
         sort_func: (p1: IElementDesc, p2: IElementDesc) => number;
+        check_avatar_url: (service: IDataService, man: IUIManager) => Promise<IElementDesc>;
     }// interface IElementDesc
     //
     export interface IBaseItem extends IElementDesc {
@@ -44,12 +46,11 @@ declare module 'infodata' {
         //
         attachedDocs?: IAttachedDoc[];
         attachments?: any;
-        avatardocid?: () => string;
+
         //
         save: (service: IDataService) => Promise<IBaseItem>;
         remove: (service: IDataService) => Promise<any>;
         save_ifnotexists: (service: IDataService) => Promise<IBaseItem>;
-        check_avatar_url: (service: IDataService, man: IUIManager) => Promise<IBaseItem>;
     }// interface IBaseItem
     export interface IPerson extends IBaseItem {
         username: string;
@@ -340,5 +341,7 @@ declare module 'infodata' {
        retardsCount:number;
        miscCount:number;
        notesCount:number;
+       fullname:string;
+       groupeSigle:string;
     }// interface IDisplayEtudiant
 }// module infodata

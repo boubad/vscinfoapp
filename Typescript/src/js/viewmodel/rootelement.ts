@@ -234,7 +234,7 @@ export class RootElement extends InfoElement {
     protected post_change_matiere(): Promise<any> {
         return Promise.resolve(true);
     }
-    protected retrieve_one_avatar(item: IBaseItem): Promise<IBaseItem> {
+    protected retrieve_one_avatar(item: IElementDesc): Promise<IElementDesc> {
         if ((item === undefined) || (item === null) || (this.dataService === null) || (this.uiManager === null)) {
             return Promise.resolve(item);
         }
@@ -244,14 +244,14 @@ export class RootElement extends InfoElement {
         }
         return item.check_avatar_url(this.dataService, this.uiManager);
     }// rerieve_one_avatar
-    protected retrieve_avatars(items: IBaseItem[]): Promise<IBaseItem[]> {
+    protected retrieve_avatars(items: IElementDesc[]): Promise<IElementDesc[]> {
         if ((items === undefined) || (items === null)) {
             return Promise.resolve([]);
         }
         if (items.length < 1) {
             return Promise.resolve([]);
         }
-        let pp: Promise<IBaseItem>[] = [];
+        let pp: Promise<IElementDesc>[] = [];
         for (let p of items) {
             let x = this.retrieve_one_avatar(p);
             pp.push(x);

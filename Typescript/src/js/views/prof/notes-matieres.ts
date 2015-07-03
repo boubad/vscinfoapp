@@ -6,6 +6,7 @@ import * as userinf  from '../../viewmodel/userinfo';
 import {InfoRoot} from '../../utils/inforoot';
 import {RootConsultViewModel} from '../../viewmodel/rootconsultmodel';
 import {IDisplayEtudiant, IEtudEvent} from 'infodata';
+import { DisplayEtudiantsArray} from '../../utils/displayetudiant';
 //
 @autoinject
 export class NotesMatieres extends RootConsultViewModel<IDisplayEtudiant> {
@@ -14,8 +15,14 @@ export class NotesMatieres extends RootConsultViewModel<IDisplayEtudiant> {
     //
     constructor(userinfo: userinf.UserInfo) {
         super(userinfo);
+        this.title = 'Notes Semestres';
     }// constructor
-    //
+    protected post_change_semestre(): Promise<any> {
+        return this.refreshAll();
+    }
+    protected post_change_matiere(): Promise<any> {
+        return this.refreshAll();
+    }
     protected is_refresh(): boolean {
         return (this.semestreid !== null) && (this.matiereid !== null);
     }
@@ -23,9 +30,7 @@ export class NotesMatieres extends RootConsultViewModel<IDisplayEtudiant> {
         this.perform_activate();
         let self = this;
         return super.activate(params, config, instruction).then((r) => {
-            if (self.items.length < 1) {
-                self.refreshAll();
-            }
+          return self.refreshAll();
         });
     }// activate
     protected prepare_refresh(): void {
@@ -34,6 +39,13 @@ export class NotesMatieres extends RootConsultViewModel<IDisplayEtudiant> {
     }
     private transform_data(pp: IEtudEvent[]): Promise<IDisplayEtudiant[]> {
         let oRet: IDisplayEtudiant[] = [];
+        if ((pp !== undefined) && (pp !== null)) {
+            let grp: DisplayEtudiantsArray = new DisplayEtudiantsArray();
+            for (let p of pp) {
+                grp.add_event(p);
+            }
+            oRet = grp.get_etudiantdisplays();
+        }// pp
         return Promise.resolve(oRet);
     }// transformData
     public refreshAll(): Promise<any> {
@@ -75,7 +87,17 @@ export class NotesMatieres extends RootConsultViewModel<IDisplayEtudiant> {
         if ((iend < 0) && (iend >= nbItems)) {
             return Promise.resolve(true);
         }
-
+        let oRet: IDisplayEtudiant[] = [];
+        let i = istart;
+        while (i <= iend) {
+            let p = this._all_data[i];
+            oRet.push(p);
+        }// i
+        let self = this;
+        return this.retrieve_avatars(oRet).then((pp: IDisplayEtudiant[]) => {
+            self.items = pp;
+            return true;
+        })
     }// refresh
 
 }// class BaseEditViewModel

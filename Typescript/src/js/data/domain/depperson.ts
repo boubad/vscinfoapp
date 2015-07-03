@@ -1,7 +1,7 @@
 //depperson.ts
 //
 import {DepartementChildItem} from './depchild';
-import {IPerson, IDepartementPerson, IDataService, IBaseItem,IUIManager} from 'infodata';
+import {IElementDesc,IPerson, IDepartementPerson, IDataService, IBaseItem,IUIManager} from 'infodata';
 import {InfoRoot} from '../../utils/inforoot';
 //
 export class DepartementPerson extends DepartementChildItem
@@ -65,7 +65,7 @@ export class DepartementPerson extends DepartementChildItem
     public remove_person(pPers: IPerson) :void {
       // do nothing here
     }// remove_person
-    public check_avatar_url(service:IDataService,man:IUIManager): Promise<IBaseItem> {
+    public check_avatar_url(service:IDataService,man:IUIManager): Promise<IElementDesc> {
       if (this.url !== null){
         return Promise.resolve(this);
       }
