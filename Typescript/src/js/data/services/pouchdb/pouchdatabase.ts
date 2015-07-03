@@ -16,7 +16,8 @@ import {IBaseItem, IItemFactory, IPerson, IWorkItem,
 IProfAffectation, IEtudAffectation, IGroupeEvent, IEtudEvent,
 IDatabaseManager} from 'infodata';
 import {ETUDEVENTS_BY_PERSON, ETUDEVENTS_BY_SEMESTRE_EVTS,
-ETUDEVENTS_BY_SEMESTRE_NOTES, PERSONS_BY_LASTNAME_FIRSTNAME} from './databaseconstants';
+ETUDEVENTS_BY_SEMESTRE_NOTES, PERSONS_BY_LASTNAME_FIRSTNAME,
+NOTES_BY_SEMESTRE_MATIERE} from './databaseconstants';
 //
 export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
     //
@@ -461,7 +462,7 @@ export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
         return this.db.then((xdb) => {
             let pp = [];
             for (let item of items) {
-                var p = self.internal_maintains_one_item(xdb, item,true);
+                var p = self.internal_maintains_one_item(xdb, item, true);
                 pp.push(p);
             }// item
             return Promise.all(pp);
@@ -599,5 +600,34 @@ export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
             return oRet;
         });
     }// get_etudiant_events
+    public get_semestre_matiere_notes(semestreid: string, matiereid): Promise<IBaseItem[]> {
+        let oRet: IBaseItem[] = [];
+        if ((semestreid === undefined) || (semestreid === null) ||
+            (matiereid === undefined) || (matiereid === null)) {
+            return Promise.resolve(oRet);
+        }
+        let self = this;
+        let startKey = [semestreid, matiereid];
+        let endKey = [semestreid, matiereid];
+        let options: PouchQueryOptions = {
+            startkey: startKey, endkey: endKey, include_docs: true
+        };
+        let gen = this.itemFactory;
+        let viewname = NOTES_BY_SEMESTRE_MATIERE;
+        return this.db.then((xdb) => {
+            return xdb.query(viewname, options);
+        }).then((result) => {
+            if ((result !== undefined) && (result !== null) && (result.rows !== undefined) &&
+                (result.rows != null)) {
+                for (let row of result.rows) {
+                    if ((row.doc !== undefined) && (row.doc !== null)) {
+                        let x = gen.create(row.doc);
+                        oRet.push(x);
+                    }
+                }// row
+            }// rows
+            return oRet;
+        });
+    }//  get_semestre_matiere_note
 }// class PouchDatabase
 //

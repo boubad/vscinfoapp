@@ -423,6 +423,8 @@ export class Groupeevents extends BaseEditViewModel<GroupeEvent> {
             }// n
             if (!bFound) {
                 let x = new EtudEvent({
+                    coefficient : this.currentItem.coefficient,
+                    etudiantid: a.etudiantid,
                     groupeeventid: id,
                     genre: 'note',
                     etudaffectationid: a.id,
@@ -578,6 +580,7 @@ export class Groupeevents extends BaseEditViewModel<GroupeEvent> {
             if (a.selected) {
                 let x = new EtudEvent({
                     etudaffectationid: a.id,
+                    etudiantid: a.etudiantid,
                     groupeeventid: id,
                     genre: xgenre,
                     groupeid: a.groupeid,

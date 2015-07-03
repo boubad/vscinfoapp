@@ -8,9 +8,11 @@ import { ETUDEVENT_TYPE, ETUDEVENT_PREFIX } from '../../utils/infoconstants';
 export class EtudEvent extends InfoEvent
     implements IEtudEvent {
     public groupeeventid: string = null;
-    private _note: number = null;
     public groupeEventName: string = null;
     public etudaffectationid:string = null;
+    public coefficient:number;
+    private _note: number;
+    public etudiantid:string = null;
     //
     constructor(oMap?: any) {
         super(oMap);
@@ -27,16 +29,27 @@ export class EtudEvent extends InfoEvent
             if (oMap.etudaffectationid !== undefined){
                 this.etudaffectationid = oMap.etudaffectationid;
             }
+            if (oMap.coefficient !== undefined){
+              this.coefficient = oMap.coefficient;
+            }
+            if (oMap.etudiantid !== undefined){
+              this.etudiantid = oMap.etudiantid;
+            }
         } // oMap
     } // constructor
     public get note(): number {
-        return this._note;
+        return (this._note !== undefined)? this._note : null;
     }
     public set note(s: number) {
         let d = InfoRoot.check_number(s);
         if ((d !== null) && (d >= 0)) {
             this._note = d;
+        } else {
+          this._note = null;
         }
+    }
+    public get is_note():boolean {
+      return ((this._note !== undefined) && (this._note !== null) && (this._note > 0));
     }
     public to_map(oMap: any): void {
         super.to_map(oMap);
@@ -51,6 +64,12 @@ export class EtudEvent extends InfoEvent
         }
         if (this.etudaffectationid !== null){
             oMap.etudaffectationid = this.etudaffectationid;
+        }
+        if ((this.coefficient !== undefined) && (this.coefficient !== null)){
+          oMap.coefficient = this.coefficient;
+        }
+        if (this.etudiantid !== null){
+          oMap.etudiantid = this.etudiantid;
         }
     } // toInsertMap
     public update_person(pPers: IPerson): void {

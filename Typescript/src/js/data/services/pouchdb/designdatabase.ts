@@ -161,7 +161,16 @@ export class DesignDatabase extends RootDatabase implements IDesignDatabaseManag
                             emit([doc.semestreid, doc.eventDate]);
                         }
                     }.toString()
-                }
+                },
+                by_semestre_matiere_notes: {
+                    map: function(doc) {
+                        if ((doc.type !== undefined) && (doc.type == 'etudevent') &&
+                            (doc.genre !== undefined) && (doc.genre == 'note') && (doc.matiereid !== null) &&
+                            (doc.semestreid !== undefined) && (doc.note !== undefined)) {
+                            emit([doc.semestreid, doc.matiereid]);
+                        }
+                    }.toString()
+                },
             }
         };
         return this.maintains_design_doc(ddoc);

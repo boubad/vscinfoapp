@@ -206,6 +206,8 @@ declare module 'infodata' {
         groupeeventid: string;
         note: number;
         groupeEventName?: string;
+        coefficient?:number;
+        etudiantid?:string;
     }
     export interface IItemFactory extends IInfoElement {
         create: (oMap: any) => IBaseItem;
@@ -279,7 +281,8 @@ declare module 'infodata' {
         get_semestre_evts_ids: (semestreid: string) => Promise<string[]>;
         get_semestre_notes_ids: (semestreid: string) => Promise<string[]>;
         check_person: (pPers: IPerson) => Promise<IPerson>;
-        get_persons_by_lastnamefirstname: (last: string,first:string) => Promise<IBaseItem[]>;
+        get_persons_by_lastnamefirstname: (last: string, first: string) => Promise<IBaseItem[]>;
+        get_semestre_matiere_notes: (semestreid: string, matiereid) => Promise<IBaseItem[]>;
     }// IDatabaseManager
     export interface IDataService extends IDatabaseManager {
         get_login_info: (username: string) => Promise<ILoginInfo>;
@@ -317,7 +320,25 @@ declare module 'infodata' {
         tag?: string;
     }// interface IInfoMessage
     export interface ITransformArray extends IInfoElement {
-      transform_map: (oMap:any)=>IBaseItem;
-      transform_file: (file:File,stype:string) => Promise<IBaseItem[]>;
+        transform_map: (oMap: any) => IBaseItem;
+        transform_file: (file: File, stype: string) => Promise<IBaseItem[]>;
     }
+    export interface IDisplayEtudiant extends IElementDesc {
+       personid:string;
+       etudiantid:string;
+       uniteid:string;
+       matiereid:string;
+       groupeid:string;
+       firstname:string;
+       lastname:string;
+       has_url:boolean;
+       coefficient:number;
+       coefficientString:string;
+       note:number;
+       noteString:string;
+       absencesCount:number;
+       retardsCount:number;
+       miscCount:number;
+       notesCount:number;
+    }// interface IDisplayEtudiant
 }// module infodata
