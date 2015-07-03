@@ -26,6 +26,14 @@
 					</td>
 				</tr>
 				<tr if:bind="canShowForm">
+					<td>
+						<div class="form-group">
+							<label class="form-label" for="fileToImport">Import CSV...</label>
+							<input type="file" id="fileToImport"  change.delegate="importFileChanged($event)"/>
+						</div>
+					</td>
+				</tr>
+				<tr if:bind="canShowForm">
 					<td style="text-align:center">
 						<elements-bar></elements-bar>
 					</td>

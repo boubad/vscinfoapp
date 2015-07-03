@@ -25,3 +25,5 @@ export const ENSEIGNANT_BY_PERSON:string='enseignants/by_person';
 export const ETUDEVENTS_BY_PERSON:string ='etudevents/by_id';
 export const ETUDEVENTS_BY_SEMESTRE_NOTES:string ='etudevents/by_semestre_notes';
 export const ETUDEVENTS_BY_SEMESTRE_EVTS:string ='etudevents/by_semestre_evts';
+//
+export const PERSONS_BY_LASTNAME_FIRSTNAME:string ='persons/by_names';

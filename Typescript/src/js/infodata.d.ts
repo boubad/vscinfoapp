@@ -268,6 +268,7 @@ declare module 'infodata' {
     export interface IDatabaseManager extends IDesignDatabaseManager {
         find_item_by_id: (id: string, bAttach?: boolean) => Promise<IBaseItem>;
         check_item: (item: IBaseItem) => Promise<IBaseItem>;
+        check_items: (items: IBaseItem[]) => Promise<IBaseItem[]>;
         find_items_array: (ids: string[]) => Promise<IBaseItem[]>;
         maintains_item: (item: IBaseItem) => Promise<IBaseItem>;
         maintains_items: (items: IBaseItem[]) => Promise<IBaseItem[]>;
@@ -278,6 +279,7 @@ declare module 'infodata' {
         get_semestre_evts_ids: (semestreid: string) => Promise<string[]>;
         get_semestre_notes_ids: (semestreid: string) => Promise<string[]>;
         check_person: (pPers: IPerson) => Promise<IPerson>;
+        get_persons_by_lastnamefirstname: (last: string,first:string) => Promise<IBaseItem[]>;
     }// IDatabaseManager
     export interface IDataService extends IDatabaseManager {
         get_login_info: (username: string) => Promise<ILoginInfo>;

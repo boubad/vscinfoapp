@@ -10,13 +10,13 @@ import {EtudiantPerson} from '../../domain/etudperson';
 import {ItemFactory} from '../../domain/itemfactory';
 //
 import {PERSON_KEY, SUPER_USERNAME, SUPER_LASTNAME, ETUDEVENT_TYPE,
-  GROUPEEVENT_TYPE, SUPER_FIRSTNAME,ROLE_SUPER, ROLE_ADMIN}
-   from '../../../utils/infoconstants';
+GROUPEEVENT_TYPE, SUPER_FIRSTNAME, ROLE_SUPER, ROLE_ADMIN}
+from '../../../utils/infoconstants';
 import {IBaseItem, IItemFactory, IPerson, IWorkItem,
 IProfAffectation, IEtudAffectation, IGroupeEvent, IEtudEvent,
 IDatabaseManager} from 'infodata';
 import {ETUDEVENTS_BY_PERSON, ETUDEVENTS_BY_SEMESTRE_EVTS,
-ETUDEVENTS_BY_SEMESTRE_NOTES} from './databaseconstants';
+ETUDEVENTS_BY_SEMESTRE_NOTES, PERSONS_BY_LASTNAME_FIRSTNAME} from './databaseconstants';
 //
 export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
     //
@@ -342,10 +342,10 @@ export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
             }
         });
     }//remove_all_items
-    protected internal_maintains_one_item(xdb: IPouchDB, item: IBaseItem): Promise<IBaseItem> {
+    protected internal_maintains_one_item(xdb: IPouchDB, item: IBaseItem, bCheck?: boolean): Promise<IBaseItem> {
         let oMap: any = {};
         item.to_map(oMap);
-        if ((item.id === undefined) || (item.id === null)) {
+        if ((oMap._id === undefined) || (oMap._id === null)) {
             oMap._id = item.create_id();
             if ((oMap._id === undefined) || (oMap._id === null)) {
                 Promise.reject(new Error("Invalid id"));
@@ -353,28 +353,48 @@ export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
         }
         let id = oMap._id;
         let generator = this.itemFactory;
-        return xdb.get(id, { attachments: true }).then((p) => {
-            oMap._rev = p._rev;
-            if ((p._attachments !== undefined) && (p._attachments !== null)) {
-                oMap._attachments = p._attachments;
-            }
-            return xdb.put(oMap);
-        }, (err: PouchError) => {
-            if (err.status != 404) {
-                Promise.reject(new Error(err.reason));
-            }
-            return xdb.put(oMap);
-        }).then((z) => {
-            return xdb.get(id, { attachments: true });
-        }, (e2: PouchError) => {
-            if (e2.status != 409) {
-                Promise.reject(new Error(e2.reason));
-            }
-            return xdb.get(id, { attachments: true });
-        }).then((pk) => {
-            return generator.create(pk);
-        });
-    }// maintains_one_item
+        if ((bCheck !== undefined) && (bCheck !== null) && (bCheck == true)) {
+            return xdb.get(id).then((p) => {
+                return { ok: true, id: p._id, rev: p._rev };
+            }, (err: PouchError) => {
+                if (err.status != 404) {
+                    Promise.reject(new Error(err.reason));
+                }
+                return xdb.put(oMap);
+            }).then((z) => {
+                return xdb.get(id, { attachments: true });
+            }, (e2: PouchError) => {
+                if (e2.status != 409) {
+                    Promise.reject(new Error(e2.reason));
+                }
+                return xdb.get(id, { attachments: true });
+            }).then((pk) => {
+                return generator.create(pk);
+            });
+        } else {
+            return xdb.get(id, { attachments: true }).then((p) => {
+                oMap._rev = p._rev;
+                if ((p._attachments !== undefined) && (p._attachments !== null)) {
+                    oMap._attachments = p._attachments;
+                }
+                return xdb.put(oMap);
+            }, (err: PouchError) => {
+                if (err.status != 404) {
+                    Promise.reject(new Error(err.reason));
+                }
+                return xdb.put(oMap);
+            }).then((z) => {
+                return xdb.get(id, { attachments: true });
+            }, (e2: PouchError) => {
+                if (e2.status != 409) {
+                    Promise.reject(new Error(e2.reason));
+                }
+                return xdb.get(id, { attachments: true });
+            }).then((pk) => {
+                return generator.create(pk);
+            });
+        }
+    }// internal_maintains_one_item
     public maintains_item(item: IBaseItem): Promise<IBaseItem> {
         if ((item === undefined) || (item === null)) {
             Promise.reject(new Error('Invalid argument.'));
@@ -433,6 +453,20 @@ export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
             return Promise.all(pp);
         });
     }// maintains_items
+    public check_items(items: IBaseItem[]): Promise<IBaseItem[]> {
+        if ((items === undefined) || (items === null)) {
+            Promise.reject(new Error('Invalid argument(s)'));
+        }
+        let self = this;
+        return this.db.then((xdb) => {
+            let pp = [];
+            for (let item of items) {
+                var p = self.internal_maintains_one_item(xdb, item,true);
+                pp.push(p);
+            }// item
+            return Promise.all(pp);
+        });
+    }// check_items
     public remove_item(item: IBaseItem): Promise<PouchUpdateResponse> {
         if ((item === undefined) || (item === null)) {
             Promise.reject(new Error('Invalid argument(s)'));
@@ -531,5 +565,39 @@ export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
             return oRet;
         });
     }// get_semestre_notes_ids
+    public get_persons_by_lastnamefirstname(last: string, first: string): Promise<IBaseItem[]> {
+        let oRet: IBaseItem[] = [];
+        if ((first === undefined) || (first === null) || (last === undefined) || (last === null)) {
+            return Promise.resolve(oRet);
+        }
+        let s1 = last.trim().toUpperCase();
+        let s2 = first.trim().toUpperCase();
+        if ((s1.length < 1) || (s2.length < 1)) {
+            return Promise.resolve(oRet);
+        }
+        let self = this;
+        let gen = this.itemFactory;
+        let startKey = [s1, s2];
+        let endKey = [s1, s2];
+        let options: PouchQueryOptions = {
+            startkey: startKey, endkey: endKey,
+            include_docs: true
+        };
+        let viewname = PERSONS_BY_LASTNAME_FIRSTNAME;
+        return this.db.then((xdb) => {
+            return xdb.query(viewname, options);
+        }).then((result) => {
+            if ((result !== undefined) && (result !== null) && (result.rows !== undefined) &&
+                (result.rows != null)) {
+                for (let row of result.rows) {
+                    let x = gen.create(row.doc);
+                    if (x !== null) {
+                        oRet.push(x);
+                    }
+                }// row
+            }// rows
+            return oRet;
+        });
+    }// get_etudiant_events
 }// class PouchDatabase
 //

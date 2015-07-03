@@ -419,13 +419,13 @@ export class Groupeevents extends BaseEditViewModel<GroupeEvent> {
                     n.matiereid = this.matiereid;
                     n.url = a.url;
                     this.add_to_array(oRet, n);
-                    break;
                 }
             }// n
             if (!bFound) {
                 let x = new EtudEvent({
                     groupeeventid: id,
                     genre: 'note',
+                    etudaffectationid: a.id,
                     groupeid: a.groupeid,
                     semestreid: a.semestreid,
                     personid: a.personid,
@@ -446,6 +446,7 @@ export class Groupeevents extends BaseEditViewModel<GroupeEvent> {
                     semestreSigle: (this.semestre !== null) ? this.semestre.sigle : null,
                 });
                 x.url = a.url;
+                x.id = x.create_id();
                 this.add_to_array(oRet, x);
             }
         }// a
@@ -576,6 +577,7 @@ export class Groupeevents extends BaseEditViewModel<GroupeEvent> {
         for (let a of affs) {
             if (a.selected) {
                 let x = new EtudEvent({
+                    etudaffectationid: a.id,
                     groupeeventid: id,
                     genre: xgenre,
                     groupeid: a.groupeid,
