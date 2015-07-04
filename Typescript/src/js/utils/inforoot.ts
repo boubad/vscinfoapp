@@ -9,28 +9,32 @@ export class InfoRoot extends InfoElement {
         super();
     }
     //
-    public static create_username(slast:string, sfirst:string): string {
-      let sRet:string=null;
-      if ((slast !== undefined) && (slast !== null)){
-         let us = slast.trim().toLowerCase();
-         if (us.length > 5){
-           sRet = us.substr(0,5).trim();
-         } else {
-           sRet = us;
-         }
-      }
-      if ((sfirst !== undefined) && (sfirst!== null)){
-        let us = sfirst.trim().toLowerCase();
-        if (us.length > 3){
-          sRet = sRet + us.substr(0,3).trim();
-        } else {
-          sRet = sRet + us;
+    public static format_note(s: number): number {
+        return (Math.floor(s * 100.0 + 0.5)) / 100.0;
+    }
+    //
+    public static create_username(slast: string, sfirst: string): string {
+        let sRet: string = null;
+        if ((slast !== undefined) && (slast !== null)) {
+            let us = slast.trim().toLowerCase();
+            if (us.length > 5) {
+                sRet = us.substr(0, 5).trim();
+            } else {
+                sRet = us;
+            }
         }
-      }
-      if ((sRet !== null) && (sRet.length < 1)){
-        sRet = null;
-      }
-      return sRet;
+        if ((sfirst !== undefined) && (sfirst !== null)) {
+            let us = sfirst.trim().toLowerCase();
+            if (us.length > 3) {
+                sRet = sRet + us.substr(0, 3).trim();
+            } else {
+                sRet = sRet + us;
+            }
+        }
+        if ((sRet !== null) && (sRet.length < 1)) {
+            sRet = null;
+        }
+        return sRet;
     }// create_username
     //
     public static create_random_id(): string {

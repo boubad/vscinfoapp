@@ -87,7 +87,7 @@ export class DisplayEtudiant extends ElementDesc implements IDisplayEtudiant {
             this._count = this._count + 1;
             this._sumdata = this._sumdata + (val * c);
             this._sumcoefs = this._sumcoefs + c;
-            this.note = this._sumdata / this._sumcoefs;
+            this.note = InfoRoot.format_note(this._sumdata / this._sumcoefs);
         }// val
     }//add_note
     public get fullname(): string {

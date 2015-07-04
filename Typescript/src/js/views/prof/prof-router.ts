@@ -21,7 +21,7 @@ export class ProfRouter extends BaseView {
     public configureRouter(config, router: mrouter.Router): any {
         config.map([
           { route: ['', 'welcome'], moduleId: HOME_MODULE, nav: true, title: 'Accueil' },
-        //  { route: 'semestres-notes', moduleId: './notes-matieres', nav: true, title: 'Notes Semestre' },
+          { route: 'semestres-notes', moduleId: './notes-matieres', nav: true, title: 'Notes Semestre' },
           { route: 'etudevents-view', moduleId: './etudevents-view', nav: true, title: 'Liste Evts' },
           { route: 'groupeevents-view', moduleId: './groupeevents-view', nav:true,title:'Liste Devoirs'},
           { route: 'groupeevents', moduleId: './groupeevents', nav: true, title: 'Edition Devoirs' },

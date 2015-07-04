@@ -67,6 +67,7 @@ export class NotesMatieres extends RootConsultViewModel<IDisplayEtudiant> {
             }
             return self.refresh();
         });
+        return Promise.resolve(true);
     }// refreshAll
     public refresh(): Promise<any> {
         this.clear_error();
@@ -90,7 +91,7 @@ export class NotesMatieres extends RootConsultViewModel<IDisplayEtudiant> {
         let oRet: IDisplayEtudiant[] = [];
         let i = istart;
         while (i <= iend) {
-            let p = this._all_data[i];
+            let p = this._all_data[i++];
             oRet.push(p);
         }// i
         let self = this;
