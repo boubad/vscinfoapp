@@ -3,12 +3,11 @@
   "name": "vscinfo",
   "private": true,
   "devDependencies": {
-    "gulp": "~3.9.0",
-    "gulp-clean": "~0.3.1",
-    "gulp-jshint": "~1.11.0",
-    "gulp-typescript": "~2.7.7",
-    "browser-sync": "~2.7.13",
-    "run-sequence": "~1.1.1",
-    "typescript": "Microsoft/TypeScript"
+    "gulp": "*",
+    "gulp-clean": "*",
+    "gulp-typescript": "*",
+    "browser-sync": "*",
+    "run-sequence": "*",
+    "typescript": "*"
   }
 }
