@@ -334,6 +334,7 @@ export class PouchDatabase extends DesignDatabase implements IDatabaseManager {
         }).then((dd) => {
             for (let x of dd.rows) {
                 let d = x.doc;
+                d._deleted = true;
                 docs.push(d);
             }// x
             if (docs.length > 0) {
