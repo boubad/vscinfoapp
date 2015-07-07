@@ -91,16 +91,16 @@ export class EtudiantPerson extends UserPerson implements IEtudiantPerson {
     if (this.dossier !== null) {
       oMap.dossier = this.dossier;
     }
-    if (oMap.sexe !== null) {
+    if (this.sexe !== null) {
       oMap.sexe = this.sexe;
     }
-    if (oMap.birthDate !== null) {
+    if (this.birthDate !== null) {
       oMap.birthDate = this.birthDate;
     }
-    if (oMap.ville !== null) {
+    if (this.ville !== null) {
       oMap.ville = this.ville;
     }
-    if (oMap.etablissement !== null) {
+    if (this.etablissement !== null) {
       oMap.etablissement = this.etablissement;
     }
     if (this.serieBac !== null) {
